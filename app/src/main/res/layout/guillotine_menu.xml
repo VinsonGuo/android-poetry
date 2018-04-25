@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetStart="0dp">
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poetry_font"
+            android:includeFontPadding="false"
+            android:padding="10dp"
+            android:text="关闭菜单"
+            android:textColor="@color/second_text_color"
+            android:textSize="16sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tv_menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poetry_font"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="诗词列表"
+        android:textColor="@color/second_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_menu_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poetry_font"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="关于我们"
+        android:textColor="@color/second_text_color"
+        android:textSize="16sp" />
+</LinearLayout>

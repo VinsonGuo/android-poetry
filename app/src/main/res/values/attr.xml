@@ -11,5 +11,8 @@
         <attr name="underlineOffset" format="dimension"/>
         <attr name="textHeightLightColor" format="color"/>
     </declare-styleable>
-
+    <declare-styleable name="YViewPager"><attr name="orientation">
+        <enum name="vertical" value="0"/>
+        <enum name="horizontal" value="1"/>
+    </attr><attr format="boolean" name="circulatory"/></declare-styleable>
 </resources>

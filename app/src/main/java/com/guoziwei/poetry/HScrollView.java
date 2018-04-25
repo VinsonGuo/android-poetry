@@ -37,7 +37,7 @@ public class HScrollView extends HorizontalScrollView {
                 Log.i(TAG, "dealtX:=" + dealtX);
                 Log.i(TAG, "dealtY:=" + dealtY);
                 // 这里是够拦截的判断依据是左右滑动，读者可根据自己的逻辑进行是否拦截
-                if (dealtX < dealtY) {
+                if (dealtX > dealtY) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                 } else {
                     getParent().requestDisallowInterceptTouchEvent(false);

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.LocaleList;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
@@ -99,12 +100,29 @@ public class Utils {
         if (sp.edit().putInt(LAN_CODE, value).commit()) {
 
             // 应用用户选择语言
-            config.locale = value == SIMPLIFY_VALUE ? Locale.SIMPLIFIED_CHINESE : Locale.TRADITIONAL_CHINESE;
+            Locale locale = value == SIMPLIFY_VALUE ? Locale.SIMPLIFIED_CHINESE : Locale.TRADITIONAL_CHINESE;
+            config.setLocale(locale);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                config.setLocales(new LocaleList(locale));
+            }
             resources.updateConfiguration(config, dm);
             showToast(context, R.string.change_language_msg);
             Intent intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(intent);
+        }
+    }
+
+    public static void initLocation(Context context) {
+        if (Utils.getLanCode(context) != 0) {
+            Resources resources = context.getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            Configuration config = resources.getConfiguration();
+            Locale newLocal = (Utils.getLanCode(context) == Utils.SIMPLIFY_VALUE) ? Locale.SIMPLIFIED_CHINESE : Locale.TRADITIONAL_CHINESE;
+            Locale.setDefault(newLocal);
+            config.setLocale(newLocal);
+            resources.updateConfiguration(config, dm);
+
         }
     }
 

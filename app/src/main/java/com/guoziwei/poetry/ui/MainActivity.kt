@@ -14,12 +14,17 @@ import com.guoziwei.poetry.util.HttpUtil
 import com.guoziwei.poetry.util.Utils
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yalantis.guillotine.animation.GuillotineAnimation
+import com.yalantis.guillotine.interfaces.GuillotineListener
 import immortalz.me.library.TransitionsHeleper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : BaseActivity(), View.OnClickListener {
+
+    private var mMenu: GuillotineAnimation? = null
+
+    private var mIsMenuOpen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +43,18 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         guillotineMenu.findViewById<View>(R.id.tv_toggle_simplify).setOnClickListener(this)
         guillotineMenu.findViewById<View>(R.id.tv_menu_list).setOnClickListener(this)
 
-        GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.tv_close), findViewById(R.id.tv_menu))
+        mMenu = GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.tv_close), findViewById(R.id.tv_menu))
                 .setActionBarViewForAnimation(findViewById(R.id.toolbar))
                 .setClosedOnStart(true)
+                .setGuillotineListener(object : GuillotineListener {
+                    override fun onGuillotineClosed() {
+                        mIsMenuOpen = false
+                    }
+
+                    override fun onGuillotineOpened() {
+                        mIsMenuOpen = true
+                    }
+                })
                 .build()
         HttpUtil.create().hitCountCheck("query", "json", "search", "java")
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
@@ -50,6 +64,15 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         { result -> Log.d("test", result.toString()) },
                         { error -> Log.e("test", error.message) }
                 )
+    }
+
+    override fun onBackPressed() {
+        if (mIsMenuOpen) {
+            mMenu?.close()
+        } else {
+            super.onBackPressed()
+        }
+
     }
 
 

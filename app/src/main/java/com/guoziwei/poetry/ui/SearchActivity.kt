@@ -18,7 +18,7 @@ class SearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         TransitionsHeleper.build(this)
-                .setShowMethod(object : ColorShowMethod(R.color.colorPrimary, R.color.colorPrimaryDark) {
+                .setShowMethod(object : ColorShowMethod(R.color.colorPrimary, R.color.colorAccent) {
                     override fun loadPlaceholder(bean: InfoBean<*>, placeholder: ImageView) {
                         val set = AnimatorSet()
                         set.playTogether(

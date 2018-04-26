@@ -10,61 +10,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.guoziwei.poetry.MainActivity">
+        tools:context="com.guoziwei.poetry.ui.MainActivity">
 
-        <android.support.v7.widget.Toolbar
+
+        <LinearLayout
             android:id="@+id/toolbar"
+            style="@style/Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentInsetEnd="0dp"
-            app:contentInsetStart="0dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_menu"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:fontFamily="@font/poetry_font"
+                android:includeFontPadding="false"
+                android:text="@string/menu"
+                android:textColor="@color/main_text_color"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poetry_font"
-                    android:includeFontPadding="false"
-                    android:text="菜单"
-                    android:textColor="@color/second_text_color"
-                    android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/poetry_font"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/app_name"
+                android:textColor="@color/main_text_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/poetry_font"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:lines="1"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/second_text_color"
-                    android:textSize="16sp"
-                    tools:text="菜单" />
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poetry_font"
+                android:includeFontPadding="false"
+                android:text="@string/search"
+                android:textColor="@color/main_text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poetry_font"
-                    android:includeFontPadding="false"
-                    android:text="搜索"
-                    android:textColor="@color/second_text_color"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
 
-        <com.guoziwei.poetry.YViewPager
+        <com.guoziwei.poetry.view.YViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

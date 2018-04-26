@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Poetry</string>
+    <string name="app_name">最美诗词</string>
+    <string name="sp_name">config</string>
+    <string name="change_language_msg">已为您切换到简体</string>
+    <string name="menu">菜单</string>
+    <string name="search">搜索</string>
+    <string name="close_menu">关闭菜单</string>
+    <string name="poetry_list">诗词列表</string>
+    <string name="toggle_lan">简繁切换</string>
+    <string name="about_us">关于我们</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.guoziwei.poetry;
+package com.guoziwei.poetry.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -42,6 +42,8 @@ import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
+
+import com.guoziwei.poetry.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -268,9 +270,9 @@ public class YViewPager extends ViewPager {
     }
 
     private void initStyle(Context context, AttributeSet attrs) {
-        TypedArray array = context.obtainStyledAttributes(attrs, cn.youngkaaa.yviewpager.R.styleable.YViewPager);
-        int direction = array.getInt(cn.youngkaaa.yviewpager.R.styleable.YViewPager_orientation, HORIZONTAL);
-        isCirculatory = array.getBoolean(cn.youngkaaa.yviewpager.R.styleable.YViewPager_circulatory, false);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.YViewPager);
+        int direction = array.getInt(R.styleable.YViewPager_orientation, HORIZONTAL);
+        isCirculatory = array.getBoolean(R.styleable.YViewPager_circulatory, false);
         mCurrentStartPos = mAdapterCirculatoryCount / 2;
 
         if (direction == HORIZONTAL) {
@@ -396,14 +398,8 @@ public class YViewPager extends ViewPager {
                 Class<? extends PagerAdapter> aClass = mAdapter.getClass();
                 Method method = aClass.getMethod("setViewPagerObserver");
                 method.invoke(mAdapter, (Object) null);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
             }
-//            mAdapter.setViewPagerObserver(null);
             mAdapter.startUpdate(this);
             for (int i = 0; i < mItems.size(); i++) {
                 final ItemInfo ii = mItems.get(i);
@@ -430,12 +426,7 @@ public class YViewPager extends ViewPager {
                 Class<? extends PagerAdapter> aClass = mAdapter.getClass();
                 Method method = aClass.getMethod("setViewPagerObserver");
                 method.invoke(mAdapter, mObserver);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
             }
 
 
@@ -1552,10 +1543,7 @@ public class YViewPager extends ViewPager {
                 Field field1 = aClass.getField("widthFactor");
                 field1.setAccessible(true);
                 widthFactor = (float) field1.get(lp);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
             }
 //            lp.childIndex = i;
 
@@ -1571,10 +1559,7 @@ public class YViewPager extends ViewPager {
                         Field field1 = aClass.getField("widthFactor");
                         field1.setAccessible(true);
                         field1.set(lp, ii.widthFactor);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
                     }
 //                    lp.widthFactor = ii.widthFactor;
 //                    lp.position = ii.position;
@@ -1902,10 +1887,7 @@ public class YViewPager extends ViewPager {
                 Field field = aClass.getField("needsMeasure");
                 field.setAccessible(true);
                 field.set(lp, true);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
             }
 //            lp.needsMeasure = true;
             addViewInLayout(child, index, params);
@@ -2087,10 +2069,7 @@ public class YViewPager extends ViewPager {
             Field field = aClass.getField(fieldName);
             field.setAccessible(true);
             field.set(layoutParams, value);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
     }
 
@@ -2100,10 +2079,7 @@ public class YViewPager extends ViewPager {
             Field field = aClass.getField("widthFactor");
             field.setAccessible(true);
             return (float) field.get(lp);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
         return 1.0f;
     }
@@ -2114,10 +2090,7 @@ public class YViewPager extends ViewPager {
             Field field = aClass.getField("needsMeasure");
             field.setAccessible(true);
             return (boolean) field.get(lp);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
         return true;
     }
@@ -2128,10 +2101,7 @@ public class YViewPager extends ViewPager {
             Field field = aClass.getField("position");
             field.setAccessible(true);
             return (int) field.get(lp);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
         return 0;
     }
@@ -2142,10 +2112,7 @@ public class YViewPager extends ViewPager {
             Field field = aClass.getField("childIndex");
             field.setAccessible(true);
             return (int) field.get(lp);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
         return 0;
     }

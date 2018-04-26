@@ -1,4 +1,4 @@
-package com.guoziwei.poetry;
+package com.guoziwei.poetry.view;
 
 
 import android.content.Context;

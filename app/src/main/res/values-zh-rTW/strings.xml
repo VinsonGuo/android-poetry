@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">最美詩詞</string>
+    <string name="change_language_msg">已為您切換到繁體</string>
+    <string name="menu">菜單</string>
+    <string name="search">搜索</string>
+    <string name="close_menu">關閉菜單</string>
+    <string name="poetry_list">詩詞列表</string>
+    <string name="toggle_lan">簡繁切換</string>
+    <string name="about_us">關於我們</string>
+</resources>

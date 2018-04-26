@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -17,20 +17,43 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poetry_font"
             android:includeFontPadding="false"
-            android:padding="10dp"
-            android:text="关闭菜单"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="@dimen/status_bar_height"
+            android:text="@string/close_menu"
             android:textColor="@color/second_text_color"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_divider"
+        android:background="@color/colorAccent" />
 
     <TextView
         android:id="@+id/tv_menu_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/poetry_font"
+        android:gravity="center"
         android:includeFontPadding="false"
         android:padding="10dp"
-        android:text="诗词列表"
+        android:text="@string/poetry_list"
+        android:textColor="@color/second_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_toggle_simplify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poetry_font"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="@string/toggle_lan"
         android:textColor="@color/second_text_color"
         android:textSize="16sp" />
 
@@ -39,9 +62,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poetry_font"
+        android:gravity="center"
         android:includeFontPadding="false"
         android:padding="10dp"
-        android:text="关于我们"
+        android:text="@string/about_us"
         android:textColor="@color/second_text_color"
         android:textSize="16sp" />
 </LinearLayout>

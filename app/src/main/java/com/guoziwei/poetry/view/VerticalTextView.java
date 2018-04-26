@@ -1,4 +1,4 @@
-package com.guoziwei.poetry;
+package com.guoziwei.poetry.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,29 +7,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Vibrator;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.lang.reflect.Field;
+import com.guoziwei.poetry.R;
+import com.guoziwei.poetry.util.Utils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
-import static android.content.Context.VIBRATOR_SERVICE;
-import static android.view.MotionEvent.ACTION_MOVE;
 
 /**
  * VerticalTextView ———— 实现文字竖排的TextView。

@@ -1,6 +1,7 @@
 package com.guoziwei.poetry.ui
 
 import android.os.Bundle
+import com.guoziwei.poetry.R
 import com.gyf.barlibrary.ImmersionBar
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 

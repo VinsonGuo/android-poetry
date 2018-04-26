@@ -57,7 +57,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.tv_toggle_simplify -> Utils.toggleSimplify(this)
             R.id.tv_search -> TransitionsHeleper.startActivity(this, SearchActivity::class.java, v)
-            R.id.tv_menu_list -> startActivity(Intent(this, PeotryListActivity::class.java))
+            R.id.tv_menu_list -> startActivity(Intent(this, PoetryListActivity::class.java))
         }
     }
 

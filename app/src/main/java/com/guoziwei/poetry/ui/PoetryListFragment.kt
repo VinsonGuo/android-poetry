@@ -7,7 +7,7 @@ import com.guoziwei.poetry.ui.adapter.PeotryAdapter
 /**
  * Created by Administrator on 2018/4/26 0026.
  */
-class PeotryListFragment : ListFragment<String>() {
+class PoetryListFragment : ListFragment<String>() {
     override fun getAdapter(): BaseQuickAdapter<String, out BaseViewHolder> {
         return PeotryAdapter()
     }

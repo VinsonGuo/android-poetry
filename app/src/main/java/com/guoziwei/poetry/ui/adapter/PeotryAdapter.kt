@@ -9,7 +9,7 @@ import com.guoziwei.poetry.util.Utils
 /**
  * Created by Administrator on 2018/4/26 0026.
  */
-class PeotryAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_peotry_list, null) {
+class PeotryAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_poetry_list, null) {
 
     val text = "枯藤老树昏鸦，小桥流水人家。\n古道西风瘦马，夕阳西下，断肠人在天涯。"
     override fun convert(helper: BaseViewHolder, item: String) {

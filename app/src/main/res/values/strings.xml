@@ -8,4 +8,6 @@
     <string name="poetry_list">诗词列表</string>
     <string name="toggle_lan">简繁切换</string>
     <string name="about_us">关于我们</string>
+    <string name="no_data">暂无数据</string>
+    <string name="load_failed_retry">加载失败，点击重试</string>
 </resources>

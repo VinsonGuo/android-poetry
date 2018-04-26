@@ -1,5 +1,6 @@
 package com.guoziwei.poetry.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         val guillotineMenu = LayoutInflater.from(this).inflate(R.layout.guillotine_menu, rootView, false)
         rootView.addView(guillotineMenu)
         guillotineMenu.findViewById<View>(R.id.tv_toggle_simplify).setOnClickListener(this)
+        guillotineMenu.findViewById<View>(R.id.tv_menu_list).setOnClickListener(this)
 
         GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.tv_close), findViewById(R.id.tv_menu))
                 .setActionBarViewForAnimation(findViewById(R.id.toolbar))
@@ -55,6 +57,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.tv_toggle_simplify -> Utils.toggleSimplify(this)
             R.id.tv_search -> TransitionsHeleper.startActivity(this, SearchActivity::class.java, v)
+            R.id.tv_menu_list -> startActivity(Intent(this, PeotryListActivity::class.java))
         }
     }
 

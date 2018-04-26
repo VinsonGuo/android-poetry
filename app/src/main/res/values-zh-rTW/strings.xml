@@ -7,4 +7,6 @@
     <string name="poetry_list">詩詞列表</string>
     <string name="toggle_lan">簡繁切換</string>
     <string name="about_us">關於我們</string>
+    <string name="no_data">暂无数据</string>
+    <string name="load_failed_retry">加载失败，点击重试</string>
 </resources>

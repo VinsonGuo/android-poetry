@@ -23,7 +23,8 @@
         </activity>
         <activity
             android:name=".ui.SearchActivity"
-            android:configChanges="locale|orientation|keyboardHidden"></activity>
+            android:configChanges="locale|orientation|keyboardHidden" />
+        <activity android:name=".ui.PeotryListActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.guoziwei.poetry.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,8 @@ import android.os.Build;
 import android.os.LocaleList;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -146,5 +149,16 @@ public class Utils {
         } else {
             tv.setText(ChineseConverter.convert(text, ConversionType.T2S, tv.getContext()));
         }
+    }
+
+    public static void closeKeyboard(Activity context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = context.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(context);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

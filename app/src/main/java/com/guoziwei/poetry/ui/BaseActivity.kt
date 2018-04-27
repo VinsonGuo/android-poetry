@@ -19,7 +19,6 @@ open class BaseActivity : RxAppCompatActivity() {
                 .statusBarDarkFont(true)
         mImmersionBar?.init()   //所有子类都将继承这些相同的属性
 
-        Utils.initLocation(this)
     }
 
 

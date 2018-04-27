@@ -8,24 +8,37 @@
 
     <LinearLayout
         android:id="@+id/toolbar"
+        style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Toolbar">
+        android:paddingBottom="0dp">
 
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poetry_font"
+            android:includeFontPadding="false"
+            android:text="@string/back"
+            android:textColor="@color/main_text_color"
+            android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/et_word"
+            android:id="@+id/et_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:ellipsize="end"
             android:fontFamily="@font/poetry_font"
-            android:hint="请输入您要搜索的诗词、作者"
+            android:hint="@string/search_hint"
             android:includeFontPadding="false"
             android:inputType="text"
             android:lines="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:imeOptions="actionSend"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:textColor="@color/main_text_color"
             android:textColorHint="@color/second_text_color"
             android:textSize="16sp" />
@@ -41,4 +54,9 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

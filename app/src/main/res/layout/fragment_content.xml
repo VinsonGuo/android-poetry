@@ -1,60 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.guoziwei.poetry.view.HScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="beforeDescendants"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.guoziwei.poetry.view.HScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:orientation="horizontal"
-        android:paddingBottom="40dp">
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
 
-        <com.guoziwei.poetry.view.VerticalTextView
-            android:id="@+id/tv_content"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:fontFamily="@font/poetry_font"
-            android:gravity="right"
-            android:includeFontPadding="false"
-            android:paddingTop="60dp"
-            android:textColor="#000"
-            android:textSize="28sp"
-            app:lineSpacingExtra="8dp"
-            tools:text="枯藤老树昏鸦\n小桥流水人家\n古道西风瘦马\n夕阳西下\n断肠人在天涯" />
-
-        <com.guoziwei.poetry.view.VerticalTextView
-            android:id="@+id/tv_author"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/poetry_font"
-            android:includeFontPadding="false"
-            android:paddingTop="80dp"
-            android:text="马致远"
-            android:textColor="#000"
-            android:textSize="24sp" />
-
-        <com.guoziwei.poetry.view.VerticalTextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="40dp"
-            android:fontFamily="@font/poetry_font"
-            android:includeFontPadding="false"
-            android:paddingTop="40dp"
-            android:text="天净沙·秋思"
-            android:textColor="#000"
-            android:textSize="36sp" />
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="40dp">
 
 
-    </LinearLayout>
+            <com.guoziwei.poetry.view.VerticalTextView
+                android:id="@+id/tv_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/poetry_font"
+                android:gravity="right"
+                android:includeFontPadding="false"
+                android:paddingTop="60dp"
+                android:textColor="#000"
+                android:textSize="28sp"
+                app:lineSpacingExtra="8dp"
+                tools:text="枯藤老树昏鸦\n小桥流水人家\n古道西风瘦马\n夕阳西下\n断肠人在天涯" />
 
-</com.guoziwei.poetry.view.HScrollView>
+            <com.guoziwei.poetry.view.VerticalTextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poetry_font"
+                android:includeFontPadding="false"
+                android:paddingTop="80dp"
+                android:text="马致远"
+                android:textColor="#000"
+                android:textSize="24sp" />
+
+            <com.guoziwei.poetry.view.VerticalTextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="40dp"
+                android:fontFamily="@font/poetry_font"
+                android:includeFontPadding="false"
+                android:paddingTop="40dp"
+                android:text="天净沙·秋思"
+                android:textColor="#000"
+                android:textSize="36sp" />
+
+
+        </LinearLayout>
+
+
+    </com.guoziwei.poetry.view.HScrollView>
+
+    <TextView
+        android:id="@+id/tv_poetry_appreciation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:fontFamily="@font/poetry_font"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="@string/poetry_appreciation"
+        android:textColor="@color/main_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_author_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:fontFamily="@font/poetry_font"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="@string/author_intro"
+        android:textColor="@color/main_text_color"
+        android:textSize="16sp" />
+</FrameLayout>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.guoziwei.poetry.ui.PoetryListActivity">
+    android:orientation="vertical">
+
 
     <FrameLayout
+        android:id="@+id/toolbar"
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <TextView
             android:id="@+id/tv_back"
@@ -23,16 +22,22 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:ellipsize="end"
             android:fontFamily="@font/poetry_font"
-            android:includeFontPadding="false"
             android:gravity="center"
-            android:textStyle="bold"
-            android:text="@string/poetry_list"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="@string/app_name"
             android:textColor="@color/main_text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
     </FrameLayout>
 
 
@@ -40,4 +45,6 @@
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 </LinearLayout>

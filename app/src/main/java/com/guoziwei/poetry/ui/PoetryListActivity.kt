@@ -1,6 +1,7 @@
 package com.guoziwei.poetry.ui
 
 import android.os.Bundle
+import android.view.View
 import com.guoziwei.poetry.R
 
 class PoetryListActivity : BaseActivity() {
@@ -12,5 +13,7 @@ class PoetryListActivity : BaseActivity() {
                 .beginTransaction()
                 .replace(R.id.fl_container, PoetryListFragment())
                 .commit()
+
+        findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
     }
 }

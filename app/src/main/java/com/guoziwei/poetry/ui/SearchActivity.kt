@@ -4,10 +4,14 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.ImageView
 import com.guoziwei.poetry.R
+import com.guoziwei.poetry.util.Utils
 import immortalz.me.library.TransitionsHeleper
 import immortalz.me.library.bean.InfoBean
 import immortalz.me.library.method.ColorShowMethod
@@ -36,6 +40,28 @@ class SearchActivity : BaseActivity() {
                 })
                 .setExposeColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .show()
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fl_container, PoetryListFragment())
+                .commit()
+        findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
+        val etContent = findViewById<EditText>(R.id.et_content)
+        etContent.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_NULL
+                    && event.action == KeyEvent.ACTION_DOWN) {
+                search()
+                return@setOnEditorActionListener true
+
+            }
+            return@setOnEditorActionListener false
+        }
+        findViewById<View>(R.id.tv_search).setOnClickListener { search() }
+    }
+
+    private fun search() {
+        Utils.showToast(this@SearchActivity, "search")
+        Utils.closeKeyboard(this)
     }
 
     override fun onDestroy() {

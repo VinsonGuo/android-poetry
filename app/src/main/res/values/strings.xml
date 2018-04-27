@@ -10,4 +10,8 @@
     <string name="about_us">关于我们</string>
     <string name="no_data">暂无数据</string>
     <string name="load_failed_retry">加载失败，点击重试</string>
+    <string name="back">返回</string>
+    <string name="author_intro">作者简介</string>
+    <string name="poetry_appreciation">诗词赏析</string>
+    <string name="search_hint">请输入您要搜索的诗词、作者</string>
 </resources>

@@ -5,11 +5,15 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.guoziwei.poetry.ui.adapter.PeotryAdapter
 
 /**
- * Created by Administrator on 2018/4/26 0026.
+ * Created by guoziwei on 2018/4/26 0026.
  */
 class PoetryListFragment : ListFragment<String>() {
     override fun getAdapter(): BaseQuickAdapter<String, out BaseViewHolder> {
-        return PeotryAdapter()
+        val adapter = PeotryAdapter()
+        adapter.setOnItemClickListener { a, view, position ->
+            ContentActivity.launch(context)
+        }
+        return adapter
     }
 
     override fun loadData() {

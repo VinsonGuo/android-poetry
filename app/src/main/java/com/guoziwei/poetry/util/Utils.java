@@ -6,8 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Environment;
 import android.os.LocaleList;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -20,8 +26,16 @@ import com.guoziwei.poetry.ui.MainActivity;
 import com.zqc.opencc.android.lib.ChineseConverter;
 import com.zqc.opencc.android.lib.ConversionType;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.Locale;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by zengp on 2017/12/2.
@@ -160,5 +174,40 @@ public class Utils {
             view = new View(context);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static File saveScreenshot(View view, int width, int height) throws Exception {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        File imagePath = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()
+                        + "/share.jpg");
+        FileOutputStream fos;
+        fos = new FileOutputStream(imagePath);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        fos.flush();
+        fos.close();
+        return imagePath;
+    }
+
+
+    /**
+     * io线程执行，主线程观察
+     * .compose(RxUtils.<T>applySchedulers())
+     */
+    public static <T> ObservableTransformer<T, T> applySchedulers() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
+                return observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
     }
 }

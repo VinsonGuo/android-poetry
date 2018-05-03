@@ -36,7 +36,7 @@ class PoetryListFragment : ListFragment<Poetry>() {
     override fun getAdapter(): BaseQuickAdapter<Poetry, out BaseViewHolder> {
         val adapter = PoetryAdapter()
         adapter.setOnItemClickListener { a, view, position ->
-            ContentActivity.launch(context)
+            ContentActivity.launch(context, mAdapter.data[position])
         }
         adapter.setEnableLoadMore(true)
         return adapter

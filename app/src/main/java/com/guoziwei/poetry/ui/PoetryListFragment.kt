@@ -16,7 +16,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent
  */
 class PoetryListFragment : ListFragment<Poetry>() {
 
-    private var queryKey: String? = null
+    private var queryKey: String? = ""
 
     companion object {
         fun newInstance(queryKey: String): PoetryListFragment {

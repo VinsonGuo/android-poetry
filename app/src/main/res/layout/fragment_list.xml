@@ -23,13 +23,14 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/second_text_color"
                 android:text="@string/load_failed_retry"
+                android:visibility="gone"
                 android:fontFamily="@font/poetry_font"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:visibility="visible" />
 
         </LinearLayout>

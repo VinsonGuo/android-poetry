@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guoziwei.poetry.R;
+import com.guoziwei.poetry.model.BaseResponse;
 import com.guoziwei.poetry.ui.MainActivity;
 import com.zqc.opencc.android.lib.ChineseConverter;
 import com.zqc.opencc.android.lib.ConversionType;
@@ -35,6 +36,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -156,10 +158,20 @@ public class Utils {
         setText(tv, tv.getContext().getString(id));
     }
 
+
     public static void setText(TextView tv, String text) {
+        setText(tv, text, true);
+    }
+
+    public static void setText(TextView tv, String text, boolean filterSymbol) {
+        text = text.replaceAll("\\|", "\n");
+        if (filterSymbol) {
+            text = text.replaceAll("[，。？、]", "\t");
+        }
         Configuration config = tv.getContext().getResources().getConfiguration();
         if (config.locale.equals(Locale.TRADITIONAL_CHINESE)) {
-            tv.setText(ChineseConverter.convert(text, ConversionType.S2T, tv.getContext()));
+//            tv.setText(ChineseConverter.convert(text, ConversionType.S2T, tv.getContext()));
+            tv.setText(text);
         } else {
             tv.setText(ChineseConverter.convert(text, ConversionType.T2S, tv.getContext()));
         }
@@ -206,6 +218,26 @@ public class Utils {
             @Override
             public ObservableSource<T> apply(@NonNull Observable<T> observable) {
                 return observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+    public static <T extends BaseResponse> ObservableTransformer<T, T> applyBizSchedulers() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
+                return observable
+                        .map(new Function<T, T>() {
+                            @Override
+                            public T apply(T t) throws Exception {
+                                if (t.getStatus() != 0) {
+                                    throw new RuntimeException(t.getMsg());
+                                }
+                                return t;
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };

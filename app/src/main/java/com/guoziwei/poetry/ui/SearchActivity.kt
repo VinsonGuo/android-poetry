@@ -18,6 +18,8 @@ import immortalz.me.library.method.ColorShowMethod
 
 class SearchActivity : BaseActivity() {
 
+    private var etContent: EditText? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -43,11 +45,11 @@ class SearchActivity : BaseActivity() {
 
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fl_container, PoetryListFragment())
+                .replace(R.id.fl_container, PoetryListFragment.newInstance(""))
                 .commit()
         findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
-        val etContent = findViewById<EditText>(R.id.et_content)
-        etContent.setOnEditorActionListener { v, actionId, event ->
+        etContent = findViewById<EditText>(R.id.et_content)
+        etContent?.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_NULL
                     && event.action == KeyEvent.ACTION_DOWN) {
                 search()
@@ -60,8 +62,11 @@ class SearchActivity : BaseActivity() {
     }
 
     private fun search() {
-        Utils.showToast(this@SearchActivity, "search")
         Utils.closeKeyboard(this)
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fl_container, PoetryListFragment.newInstance(etContent?.text.toString().trim()))
+                .commit()
     }
 
     override fun onDestroy() {

@@ -36,20 +36,21 @@
                 android:paddingLeft="14dp"
                 android:paddingTop="60dp"
                 android:textColor="#000"
-                android:textSize="28sp"
-                app:lineSpacingExtra="8dp"
+                android:textSize="24sp"
+                app:lineSpacingExtra="12dp"
                 tools:text="枯藤老树昏鸦\n小桥流水人家\n古道西风瘦马\n夕阳西下\n断肠人在天涯" />
 
             <com.guoziwei.poetry.view.VerticalTextView
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="-15dp"
                 android:fontFamily="@font/poetry_font"
                 android:includeFontPadding="false"
                 android:paddingTop="80dp"
                 android:text="马致远"
                 android:textColor="#000"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <com.guoziwei.poetry.view.VerticalTextView
                 android:id="@+id/tv_title"
@@ -61,7 +62,7 @@
                 android:paddingTop="40dp"
                 android:text="天净沙·秋思"
                 android:textColor="#000"
-                android:textSize="36sp" />
+                android:textSize="32sp" />
 
 
         </LinearLayout>

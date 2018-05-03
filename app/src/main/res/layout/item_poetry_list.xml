@@ -31,15 +31,16 @@
 
     <TextView
         android:id="@+id/tv_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:fontFamily="@font/poetry_font"
         android:includeFontPadding="false"
         android:lineSpacingMultiplier="1.5"
         android:padding="10dp"
         android:textColor="@color/second_text_color"
         android:textSize="20sp"
-        tools:text="内容内容内容内容内容内容内容内容内容内容内容内容\n内容内容内容内容内容内容内容内容内容内容内容内容" />
+        tools:text="内容内容内容内内容内容" />
 
     <View
         android:layout_width="match_parent"

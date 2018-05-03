@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.guoziwei.poetry.R;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by guoziwei on 2017/12/16.
  */
 
-public abstract class ListFragment<T> extends Fragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public abstract class ListFragment<T> extends RxFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static final int PAGE_COUNT = 10;
 

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.guoziwei.poetry.R
+import com.guoziwei.poetry.model.Poetry
 import com.guoziwei.poetry.util.Utils
 import com.guoziwei.poetry.view.HScrollView
 import com.guoziwei.poetry.view.VerticalTextView
@@ -27,17 +28,22 @@ class ContentFragment : Fragment(), View.OnClickListener {
     private var mTvContent: TextView? = null
     private var mScrollView: HScrollView? = null
 
-    val text = "枯藤老树昏鸦\n小桥流水人家\n古道西风瘦马\n夕阳西下\n断肠人在天涯枯藤老树昏鸦\n" +
-            "小桥流水人家\n" +
-            "古道西风瘦马\n" +
-            "夕阳西下\n" +
-            "断肠人在天涯枯藤老树昏鸦\n" +
-            "小桥流水人家\n" +
-            "古道西风瘦马\n" +
-            "夕阳西下\n" +
-            "断肠人在天涯"
-    val title = "天净沙·秋思"
+    private var poetry: Poetry? = null
 
+    companion object {
+        fun newInstance(poetry: Poetry): ContentFragment {
+            val fragment = ContentFragment()
+            val args = Bundle()
+            args.putParcelable("data", poetry)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        poetry = arguments.getParcelable("data")
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater?.inflate(R.layout.fragment_content, container, false)!!
@@ -49,7 +55,9 @@ class ContentFragment : Fragment(), View.OnClickListener {
         v.findViewById<View>(R.id.tv_poetry_appreciation).setOnClickListener(this)
         mScrollView?.post({ mScrollView?.fullScroll(View.FOCUS_RIGHT) })
 
-        Utils.setText(mTvContent, text)
+        Utils.setText(mTvContent, poetry?.content)
+        Utils.setText(tvAuthor, poetry?.author)
+        Utils.setText(tvTitle, poetry?.title)
         return v
     }
 
@@ -68,7 +76,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
                         })
             }
             R.id.tv_poetry_appreciation -> {
-                val url = "https://wapbaike.baidu.com/item/${URLEncoder.encode(title, "utf-8")}"
+                val url = "https://wapbaike.baidu.com/item/${URLEncoder.encode(poetry?.title, "utf-8")}"
                 startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)))
             }
         }

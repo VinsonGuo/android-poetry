@@ -83,7 +83,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
     }
 
     private fun share() {
-        Observable.just(Utils.saveScreenshot(mScrollView, mScrollView?.getChildAt(0)!!.width,
+        Observable.just(Utils.saveScreenshot(mScrollView?.getChildAt(0), mScrollView?.getChildAt(0)!!.width,
                 mScrollView?.getChildAt(0)!!.height))
                 .compose(Utils.applySchedulers())
                 .subscribe({

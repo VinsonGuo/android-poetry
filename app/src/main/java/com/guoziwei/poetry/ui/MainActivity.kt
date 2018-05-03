@@ -2,6 +2,8 @@ package com.guoziwei.poetry.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -24,6 +26,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private var mMenu: GuillotineAnimation? = null
     private var viewpager: YViewPager? = null
+    private var adapter: SimpleFragmentPagerAdapter? = null
 
     private var mIsMenuOpen = false
 
@@ -37,6 +40,20 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         val tvTitle = findViewById<TextView>(R.id.tv_title)
         viewpager = findViewById(R.id.view_pager)
         viewpager?.setPageTransformer(false, DepthPageTransformer())
+        viewpager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (position == fragments.size - 1) {
+                    Handler().postDelayed({ requestData(false) }, 500)
+                }
+            }
+
+        })
         val rootView = findViewById<FrameLayout>(R.id.root)
         val guillotineMenu = LayoutInflater.from(this).inflate(R.layout.guillotine_menu, rootView, false)
         rootView.addView(guillotineMenu)
@@ -57,17 +74,20 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 })
                 .build()
 
-        requestData()
+        requestData(true)
     }
 
-    private fun requestData() {
+    private fun requestData(isFirst: Boolean) {
         HttpUtil.create().randomTenPoetry()
                 .compose(Utils.applyBizSchedulers<BaseResponse<MutableList<Poetry>>>())
                 .compose(bindUntilEvent<BaseResponse<MutableList<Poetry>>>(ActivityEvent.DESTROY))
                 .subscribe({
                     fragments.addAll(it.data.map { ContentFragment.newInstance(it) })
-                    val adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
+                    adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
                     viewpager?.adapter = adapter
+                    if (!isFirst) {
+                        viewpager?.setCurrentItem(fragments.size - 11, false)
+                    }
                 }, {
                     Utils.showToast(this, it.message)
                 })

@@ -15,14 +15,14 @@
         android:theme="@style/AppTheme">
 
         <provider
-        android:name="android.support.v4.content.FileProvider"
-        android:authorities="${applicationId}.provider"
-        android:exported="false"
-        android:grantUriPermissions="true">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/provider_paths" />
-    </provider>
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
         <activity
             android:name=".ui.MainActivity"
@@ -35,6 +35,9 @@
             android:configChanges="locale|orientation|keyboardHidden" />
         <activity
             android:name=".ui.ContentActivity"
+            android:configChanges="locale|orientation|keyboardHidden" />
+        <activity
+            android:name=".ui.AboutUsActivity"
             android:configChanges="locale|orientation|keyboardHidden" />
         <activity
             android:name=".ui.SplashActivity"

@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.ToxicBakery.viewpager.transforms.DepthPageTransformer
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.guoziwei.poetry.R
 import com.guoziwei.poetry.model.BaseResponse
 import com.guoziwei.poetry.model.Poetry
@@ -20,7 +20,6 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yalantis.guillotine.animation.GuillotineAnimation
 import com.yalantis.guillotine.interfaces.GuillotineListener
 import immortalz.me.library.TransitionsHeleper
-import org.litepal.crud.DataSupport
 
 
 class MainActivity : BaseActivity(), View.OnClickListener {
@@ -40,7 +39,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         tvSearch.setOnClickListener(this)
         val tvTitle = findViewById<TextView>(R.id.tv_title)
         viewpager = findViewById(R.id.view_pager)
-        viewpager?.setPageTransformer(false, DepthPageTransformer())
+        viewpager?.setPageTransformer(false, CubeOutTransformer())
         viewpager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }

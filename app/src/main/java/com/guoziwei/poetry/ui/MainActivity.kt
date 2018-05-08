@@ -59,6 +59,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         rootView.addView(guillotineMenu)
         guillotineMenu.findViewById<View>(R.id.tv_toggle_simplify).setOnClickListener(this)
         guillotineMenu.findViewById<View>(R.id.tv_menu_list).setOnClickListener(this)
+        guillotineMenu.findViewById<View>(R.id.tv_menu_about).setOnClickListener(this)
 
         mMenu = GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.tv_close), findViewById(R.id.tv_menu))
                 .setActionBarViewForAnimation(findViewById(R.id.toolbar))
@@ -108,6 +109,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             R.id.tv_toggle_simplify -> Utils.toggleSimplify(this)
             R.id.tv_search -> TransitionsHeleper.startActivity(this, SearchActivity::class.java, v)
             R.id.tv_menu_list -> startActivity(Intent(this, PoetryListActivity::class.java))
+            R.id.tv_menu_about -> startActivity(Intent(this, AboutUsActivity::class.java))
         }
     }
 

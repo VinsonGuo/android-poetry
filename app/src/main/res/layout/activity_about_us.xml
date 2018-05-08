@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poetry_font"
+            android:includeFontPadding="false"
+            android:text="@string/back"
+            android:textColor="@color/main_text_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ellipsize="end"
+            android:fontFamily="@font/poetry_font"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="@string/app_name"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/aaa"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poetry_font"
+            android:text="502工作室"
+            android:textColor="@color/main_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_mail_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poetry_font"
+            android:text="@string/mail502tech"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poetry_font"
+        android:text="Copyright © 2012-2018 502工作室
+             All Rights Reserved"
+        android:textSize="11sp" />
+
+</LinearLayout>

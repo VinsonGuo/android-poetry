@@ -30,7 +30,7 @@
             android:includeFontPadding="false"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="@string/poetry_list"
+            android:text="@string/collect_list"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
     </FrameLayout>

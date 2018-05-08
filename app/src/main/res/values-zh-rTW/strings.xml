@@ -4,9 +4,18 @@
     <string name="menu">菜單</string>
     <string name="search">搜索</string>
     <string name="close_menu">關閉菜單</string>
-    <string name="poetry_list">詩詞列表</string>
+    <string name="collect_list">收藏列表</string>
     <string name="toggle_lan">簡繁切換</string>
     <string name="about_us">關於我們</string>
-    <string name="no_data">暂无数据</string>
-    <string name="load_failed_retry">加载失败，点击重试</string>
+    <string name="no_data">暫無數據</string>
+    <string name="load_failed_retry">加載失敗，點擊重試</string>
+    <string name="back">返回</string>
+    <string name="author_intro">作者</string>
+    <string name="poetry_appreciation">賞析</string>
+    <string name="search_hint">請輸入您要搜索的詩詞、作者</string>
+    <string name="share_text">分享圖片到</string>
+    <string name="share_error">分享失敗</string>
+    <string name="share">分享</string>
+    <string name="collect">收藏</string>
+    <string name="cancel_collect">取消收藏</string>
 </resources>

@@ -34,23 +34,23 @@
                 android:gravity="right"
                 android:includeFontPadding="false"
                 android:paddingLeft="14dp"
+                android:paddingRight="10dp"
                 android:paddingTop="60dp"
                 android:textColor="#000"
                 android:textSize="24sp"
-                app:lineSpacingExtra="12dp"
+                app:lineSpacingExtra="18dp"
                 tools:text="枯藤老树昏鸦\n小桥流水人家\n古道西风瘦马\n夕阳西下\n断肠人在天涯" />
 
             <com.guoziwei.poetry.view.VerticalTextView
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="-15dp"
                 android:fontFamily="@font/poetry_font"
                 android:includeFontPadding="false"
-                android:paddingTop="80dp"
-                android:text="马致远"
+                android:paddingTop="60dp"
                 android:textColor="#000"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:text="马致远" />
 
             <com.guoziwei.poetry.view.VerticalTextView
                 android:id="@+id/tv_title"
@@ -60,9 +60,10 @@
                 android:fontFamily="@font/poetry_font"
                 android:includeFontPadding="false"
                 android:paddingTop="40dp"
-                android:text="天净沙·秋思"
                 android:textColor="#000"
-                android:textSize="32sp" />
+                android:textSize="32sp"
+                app:lineSpacingExtra="18dp"
+                tools:text="天净沙·秋思" />
 
 
         </LinearLayout>
@@ -74,24 +75,36 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_divider"
-        android:layout_above="@+id/tv_poetry_appreciation"
+        android:layout_above="@+id/tv_author_intro"
         android:background="@color/colorAccent" />
 
     <TextView
-        android:id="@+id/tv_poetry_appreciation"
+        android:id="@+id/tv_author_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
         android:fontFamily="@font/poetry_font"
         android:includeFontPadding="false"
         android:padding="10dp"
-        android:text="@string/poetry_appreciation"
+        android:text="@string/author_intro"
         android:textColor="@color/main_text_color"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tv_author_intro"
+        android:id="@+id/tv_collect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/poetry_font"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="@string/collect"
+        android:textColor="@color/main_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

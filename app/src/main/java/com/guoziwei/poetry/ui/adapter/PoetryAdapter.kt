@@ -17,7 +17,12 @@ class PoetryAdapter : BaseQuickAdapter<Poetry, BaseViewHolder>(R.layout.item_poe
         val tvAuthor: TextView = helper.getView(R.id.tv_author)
         val tvContent: TextView = helper.getView(R.id.tv_content)
         Utils.setText(tvTitle, item.title, false)
-        Utils.setText(tvAuthor, item.author, false)
+        val dynasty = when (item.dynasty) {
+            "T" -> "唐"
+            "S" -> "宋"
+            else -> ""
+        }
+        Utils.setText(tvAuthor, "[$dynasty] ${item.author}", false)
         Utils.setText(tvContent, item.content, false)
     }
 }

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.guoziwei.poetry.R;
 import com.guoziwei.poetry.model.BaseResponse;
 import com.guoziwei.poetry.ui.MainActivity;
+import com.guoziwei.poetry.view.VerticalTextView;
 import com.zqc.opencc.android.lib.ChineseConverter;
 import com.zqc.opencc.android.lib.ConversionType;
 
@@ -163,10 +164,23 @@ public class Utils {
         setText(tv, text, true);
     }
 
+
     public static void setText(TextView tv, String text, boolean filterSymbol) {
         text = text.replaceAll("\\|", "\n");
         if (filterSymbol) {
-            text = text.replaceAll("[，。？、]", "\t");
+            text = text.replaceAll("[，。？!、]", "\t");
+        }
+        if (tv instanceof VerticalTextView) {
+            text = text.replace('“', '﹃')
+                    .replace('”', '﹄')
+                    .replace('‘', '﹁')
+                    .replace('’', '﹂')
+                    .replace('「', '﹁')
+                    .replace('」', '﹂')
+                    .replace('（', '︵')
+                    .replace('）', '︶')
+                    .replace('《', '︻')
+                    .replace('》', '︼');
         }
         Configuration config = tv.getContext().getResources().getConfiguration();
         if (config.locale.equals(Locale.TRADITIONAL_CHINESE)) {

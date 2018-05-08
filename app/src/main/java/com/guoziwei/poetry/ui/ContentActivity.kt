@@ -20,7 +20,7 @@ class ContentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_content)
-        val poetry = intent.getParcelableExtra<Poetry>("data")
+        val poetry = intent.getSerializableExtra("data") as Poetry
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fl_container, ContentFragment.newInstance(poetry))

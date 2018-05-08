@@ -20,6 +20,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yalantis.guillotine.animation.GuillotineAnimation
 import com.yalantis.guillotine.interfaces.GuillotineListener
 import immortalz.me.library.TransitionsHeleper
+import org.litepal.crud.DataSupport
 
 
 class MainActivity : BaseActivity(), View.OnClickListener {
@@ -49,7 +50,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             override fun onPageSelected(position: Int) {
                 if (position == fragments.size - 1) {
-                    Handler().postDelayed({ requestData(false) }, 500)
+                    Handler().postDelayed({ requestData() }, 500)
                 }
             }
 
@@ -75,10 +76,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 })
                 .build()
 
-        requestData(true)
+        requestData()
     }
 
-    private fun requestData(isFirst: Boolean) {
+    private fun requestData() {
         HttpUtil.create().randomTenPoetry()
                 .compose(Utils.applyBizSchedulers<BaseResponse<MutableList<Poetry>>>())
                 .compose(bindUntilEvent<BaseResponse<MutableList<Poetry>>>(ActivityEvent.DESTROY))
@@ -86,9 +87,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     fragments.addAll(it.data.map { ContentFragment.newInstance(it) })
                     adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
                     viewpager?.adapter = adapter
-                    if (!isFirst) {
-                        viewpager?.setCurrentItem(fragments.size - 11, false)
-                    }
+                    viewpager?.setCurrentItem(Math.max(0, fragments.size - 11), false)
                 }, {
                     Utils.showToast(this, it.message)
                 })

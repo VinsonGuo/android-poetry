@@ -10,6 +10,8 @@ import com.guoziwei.poetry.ui.adapter.PoetryAdapter
 import com.guoziwei.poetry.util.HttpUtil
 import com.guoziwei.poetry.util.Utils
 import com.trello.rxlifecycle2.android.FragmentEvent
+import com.zqc.opencc.android.lib.ChineseConverter
+import com.zqc.opencc.android.lib.ConversionType
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
@@ -43,7 +45,7 @@ class PoetryListFragment : ListFragment<Poetry>() {
     }
 
     override fun loadData() {
-        HttpUtil.create().poetPoetrys(queryKey, mPage)
+        HttpUtil.create().poetPoetrys(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
                 .compose(Utils.applyBizSchedulers<BaseResponse<PageResponse<MutableList<Poetry>>>>())
                 .compose(bindUntilEvent<BaseResponse<PageResponse<MutableList<Poetry>>>>(FragmentEvent.DESTROY))
                 .subscribe({

@@ -41,7 +41,7 @@
         android:gravity="center"
         android:includeFontPadding="false"
         android:padding="10dp"
-        android:text="@string/poetry_list"
+        android:text="@string/collect_list"
         android:textColor="@color/second_text_color"
         android:textSize="16sp" />
 

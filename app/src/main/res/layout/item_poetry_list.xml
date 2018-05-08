@@ -14,7 +14,7 @@
         android:includeFontPadding="false"
         android:padding="10dp"
         android:textColor="@color/main_text_color"
-        android:textSize="28sp"
+        android:textSize="24sp"
         tools:text="标题" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:gravity="center"
         android:includeFontPadding="false"
         android:textColor="@color/second_text_color"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:text="作者" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:lineSpacingMultiplier="1.5"
         android:padding="10dp"
         android:textColor="@color/second_text_color"
-        android:textSize="20sp"
+        android:textSize="18sp"
         tools:text="内容内容内容内内容内容" />
 
     <View

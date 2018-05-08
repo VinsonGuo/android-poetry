@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.WindowManager;
@@ -55,7 +54,6 @@ public class VerticalTextView extends AppCompatTextView {
     private SparseArray<Float[]> mLinesOffsetArray; // 记录每一行文字的X,Y偏移量
     private SparseArray<int[]> mLinesTextIndex;     // 记录每一行文字开始和结束字符的index
     private int mMaxTextLine = 0;                   // 最大行数
-
 
 
     public VerticalTextView(Context context) {
@@ -145,7 +143,6 @@ public class VerticalTextView extends AppCompatTextView {
     }
 
 
-
     /* ***************************************************************************************** */
     // view测量部分
     @Override
@@ -155,8 +152,6 @@ public class VerticalTextView extends AppCompatTextView {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        Log.d(TAG, "widthSize " + widthSize);
-        Log.d(TAG, "heightSize " + heightSize);
         // 粗略计算文字的最大宽度和最大高度，用于修正最后的测量宽高
         mTextAreaRoughBound = getTextRoughSize(heightSize == 0 ? mScreenHeight : heightSize,
                 mLineSpacingExtra, mCharSpacingExtra);
@@ -194,8 +189,6 @@ public class VerticalTextView extends AppCompatTextView {
         }
         setMeasuredDimension(measuredWidth, measureHeight);
 
-        Log.d(TAG, "measuredWidth " + measuredWidth);
-        Log.d(TAG, "measureHeight " + measureHeight);
     }
 
     /**
@@ -254,9 +247,6 @@ public class VerticalTextView extends AppCompatTextView {
         // 计算文本的粗略宽度，包括padding，
         int textWidth = getPaddingLeft() + getPaddingRight() +
                 (int) ((textLines + 1) * getTextSize() + lineSpacingExtra * (textLines - 1));
-        Log.d(TAG, "textRoughLines " + textLines);
-        Log.d(TAG, "textRoughWidth " + textWidth);
-        Log.d(TAG, "textRoughHeight " + textHeight);
         return new int[]{textWidth, textHeight};
     }
 
@@ -362,7 +352,6 @@ public class VerticalTextView extends AppCompatTextView {
                 mLinesTextIndex.put(mMaxTextLine, new int[]{currentLineStartIndex, textStrLength});
             }
         }
-        Log.d(TAG, "mMaxTextLine is : " + mMaxTextLine);
     }
 
     /**

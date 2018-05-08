@@ -11,7 +11,8 @@ class PoetryListActivity : BaseActivity() {
         setContentView(R.layout.activity_poetry_list)
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fl_container, PoetryListFragment.newInstance(""))
+//                .replace(R.id.fl_container, PoetryListFragment.newInstance(""))
+                .replace(R.id.fl_container, PoetryLikeListFragment.newInstance())
                 .commit()
 
         findViewById<View>(R.id.tv_back).setOnClickListener { finish() }

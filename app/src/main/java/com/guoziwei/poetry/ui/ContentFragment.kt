@@ -6,10 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import cc.sayaki.widget.PlumbTextView
 import com.guoziwei.poetry.R
 import com.guoziwei.poetry.model.Poetry
 import com.guoziwei.poetry.util.Utils
@@ -17,6 +19,7 @@ import com.guoziwei.poetry.view.HScrollView
 import com.guoziwei.poetry.view.VerticalTextView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
+import org.litepal.crud.DataSupport
 import java.net.URLEncoder
 
 
@@ -25,16 +28,18 @@ import java.net.URLEncoder
  */
 class ContentFragment : Fragment(), View.OnClickListener {
 
-    private var mTvContent: TextView? = null
+    private var mTvContent: VerticalTextView? = null
+    private var mTvCollect: TextView? = null
     private var mScrollView: HScrollView? = null
 
     private var poetry: Poetry? = null
+    private var isCollect: Boolean = false
 
     companion object {
         fun newInstance(poetry: Poetry): ContentFragment {
             val fragment = ContentFragment()
             val args = Bundle()
-            args.putParcelable("data", poetry)
+            args.putSerializable("data", poetry)
             fragment.arguments = args
             return fragment
         }
@@ -42,21 +47,33 @@ class ContentFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        poetry = arguments.getParcelable("data")
+        poetry = arguments.getSerializable("data") as Poetry?
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater?.inflate(R.layout.fragment_content, container, false)!!
         mScrollView = v.findViewById(R.id.scrollView)
         val tvTitle = v.findViewById<VerticalTextView>(R.id.tv_title)
-        mTvContent = v.findViewById<VerticalTextView>(R.id.tv_content)
+        mTvContent = v.findViewById(R.id.tv_content)
         val tvAuthor = v.findViewById<VerticalTextView>(R.id.tv_author)
         v.findViewById<View>(R.id.tv_author_intro).setOnClickListener(this)
-        v.findViewById<View>(R.id.tv_poetry_appreciation).setOnClickListener(this)
+        v.findViewById<View>(R.id.tv_share).setOnClickListener(this)
+        mTvCollect = v.findViewById(R.id.tv_collect)
+        mTvCollect?.setOnClickListener(this)
+        // 搜索数据库是否保存
+        isCollect = DataSupport
+                .where("poetry_id = ?", poetry?.poetry_id)
+                .count(Poetry::class.java) > 0
+        mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
         mScrollView?.post({ mScrollView?.fullScroll(View.FOCUS_RIGHT) })
 
         Utils.setText(mTvContent, poetry?.content)
-        Utils.setText(tvAuthor, poetry?.author)
+        val dynasty = when (poetry?.dynasty) {
+            "T" -> "唐"
+            "S" -> "宋"
+            else -> ""
+        }
+        Utils.setText(tvAuthor, "︻$dynasty︼  ${poetry?.author}")
         Utils.setText(tvTitle, poetry?.title)
         return v
     }
@@ -64,7 +81,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_author_intro -> {
+            R.id.tv_share -> {
                 val rxPermissions = RxPermissions(activity)
                 rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe({
@@ -75,9 +92,31 @@ class ContentFragment : Fragment(), View.OnClickListener {
                             }
                         })
             }
-            R.id.tv_poetry_appreciation -> {
+            R.id.tv_author_intro -> {
                 val url = "https://wapbaike.baidu.com/item/${URLEncoder.encode(poetry?.title, "utf-8")}"
                 startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)))
+            }
+            R.id.tv_collect -> {
+                if (poetry == null) return
+                if (isCollect) {
+                    AlertDialog.Builder(context)
+                            .setMessage("确定要取消收藏么？")
+                            .setPositiveButton("确定", { dialog, which ->
+                                //                                val count = DataSupport.deleteAll(Poetry::class.java, "poetry_id = ?", poetry?.poetry_id)
+                                if (poetry?.delete()!! > 0) {
+                                    isCollect = false
+                                }
+                                mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
+                            })
+                            .setNegativeButton("取消", null)
+                            .show()
+                } else {
+                    if (poetry?.save()!!) {
+                        Utils.showToast(context, "收藏成功❤️")
+                        isCollect = true
+                    }
+                    mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
+                }
             }
         }
     }

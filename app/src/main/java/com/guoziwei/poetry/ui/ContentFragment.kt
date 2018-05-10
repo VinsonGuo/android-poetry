@@ -2,7 +2,6 @@ package com.guoziwei.poetry.ui
 
 import android.Manifest
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
@@ -11,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import cc.sayaki.widget.PlumbTextView
 import com.guoziwei.poetry.R
 import com.guoziwei.poetry.model.Poetry
 import com.guoziwei.poetry.util.Utils
@@ -20,7 +18,6 @@ import com.guoziwei.poetry.view.VerticalTextView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import org.litepal.crud.DataSupport
-import java.net.URLEncoder
 
 
 /**
@@ -93,8 +90,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
                         })
             }
             R.id.tv_author_intro -> {
-                val url = "https://wapbaike.baidu.com/item/${URLEncoder.encode(poetry?.title, "utf-8")}"
-                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)))
+                PoemActivity.launch(context, poetry?.author_id)
             }
             R.id.tv_collect -> {
                 if (poetry == null) return

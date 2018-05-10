@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.guoziwei.poetry.model.BaseResponse
-import com.guoziwei.poetry.model.PageResponse
 import com.guoziwei.poetry.model.Poetry
 import com.guoziwei.poetry.ui.adapter.PoetryAdapter
 import com.guoziwei.poetry.util.HttpUtil
@@ -45,11 +44,11 @@ class PoetryListFragment : ListFragment<Poetry>() {
     }
 
     override fun loadData() {
-        HttpUtil.create().poetPoetrys(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
-                .compose(Utils.applyBizSchedulers<BaseResponse<PageResponse<MutableList<Poetry>>>>())
-                .compose(bindUntilEvent<BaseResponse<PageResponse<MutableList<Poetry>>>>(FragmentEvent.DESTROY))
+        HttpUtil.create().searchPoetry(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
+                .compose(Utils.applyBizSchedulers<BaseResponse<MutableList<Poetry>>>())
+                .compose(bindUntilEvent<BaseResponse<MutableList<Poetry>>>(FragmentEvent.DESTROY))
                 .subscribe({
-                    loadDataSuccess(it.data.data)
+                    loadDataSuccess(it.data)
                 }, {
                     Utils.showToast(context, it.message)
                     loadFailed()

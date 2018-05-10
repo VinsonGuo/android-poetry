@@ -32,7 +32,7 @@ class PoetryLikeListFragment : ListFragment<Poetry>() {
     override fun loadData() {
         val list = DataSupport
                 .limit(pageCount)
-                .offset((mPage - 1) * pageCount)
+                .offset(mPage * pageCount)
                 .order("id desc")
                 .find(Poetry::class.java)
         loadDataSuccess(list)

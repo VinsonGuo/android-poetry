@@ -26,7 +26,7 @@ public abstract class ListFragment<T> extends RxFragment implements SwipeRefresh
 
     public static final int PAGE_COUNT = 10;
 
-    protected int mPage = 1;
+    protected int mPage = 0;
     protected RecyclerView mRvList;
     protected SwipeRefreshLayout mRefreshLayout;
     protected View mLoadView;
@@ -79,7 +79,7 @@ public abstract class ListFragment<T> extends RxFragment implements SwipeRefresh
     protected void loadDataSuccess(List<T> list) {
         mLoadView.setVisibility(View.GONE);
         mRefreshLayout.setRefreshing(false);
-        if (mPage == 1) {
+        if (mPage == 0) {
             mAdapter.setNewData(list);
         } else {
             mAdapter.addData(list);
@@ -107,7 +107,7 @@ public abstract class ListFragment<T> extends RxFragment implements SwipeRefresh
 
         mRefreshLayout.setRefreshing(false);
         if (mAdapter.isLoadMoreEnable()) {
-            if (mPage != 1) {
+            if (mPage != 0) {
                 mAdapter.loadMoreFail();
                 mPage--; // 还原mPage
             }
@@ -121,7 +121,7 @@ public abstract class ListFragment<T> extends RxFragment implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        mPage = 1;
+        mPage = 0;
         loadData();
     }
 

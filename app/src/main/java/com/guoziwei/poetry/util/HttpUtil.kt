@@ -24,7 +24,8 @@ object HttpUtil {
                         RxJava2CallAdapterFactory.create())
                 .addConverterFactory(
                         GsonConverterFactory.create())
-                .baseUrl("http://devices.e-toys.cn/api/poet/")
+//                .baseUrl("http://devices.e-toys.cn/api/poet/")
+                .baseUrl("http://47.104.93.195:8080/api/")
                 .build()
         retrofit.create(ApiService::class.java)
     }

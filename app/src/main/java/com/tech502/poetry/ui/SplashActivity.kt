@@ -23,10 +23,10 @@ class SplashActivity : BaseActivity() {
         Utils.initLocation(this)
         mHandler.postDelayed(callback, 2000)
         val tv = findViewById<TextView>(R.id.tv)
-        val now: Calendar = Calendar.getInstance()
-        val calendar: LunarCalendar = LunarCalendar.obtainCalendar(now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH) + 1, now.get(Calendar.DAY_OF_MONTH))
-        Utils.setText(tv, calendar.fullLunarStr)
+//        val now: Calendar = Calendar.getInstance()
+//        val calendar: LunarCalendar = LunarCalendar.obtainCalendar(now.get(Calendar.YEAR),
+//                now.get(Calendar.MONTH) + 1, now.get(Calendar.DAY_OF_MONTH))
+//        Utils.setText(tv, calendar.fullLunarStr)
 
     }
 

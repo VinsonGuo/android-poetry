@@ -15,9 +15,10 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 class PoemActivity : BaseActivity() {
 
     companion object {
-        fun launch(context: Context, id: String?) {
+        fun launch(context: Context, id: String?, name: String?) {
             val intent = Intent(context, PoemActivity::class.java)
             intent.putExtra("data", id)
+            intent.putExtra("name", name)
             context.startActivity(intent)
         }
     }
@@ -26,9 +27,10 @@ class PoemActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poem)
         val id = intent.getStringExtra("data")
+        val name = intent.getStringExtra("name")
 
         findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
-        HttpUtil.create().poemInfo(id)
+        HttpUtil.create().poemInfo(id, name)
                 .compose(Utils.applyBizSchedulers<BaseResponse<Poem>>())
                 .compose(bindUntilEvent<BaseResponse<Poem>>(ActivityEvent.DESTROY))
                 .subscribe({

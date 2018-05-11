@@ -90,7 +90,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
                         })
             }
             R.id.tv_author_intro -> {
-                PoemActivity.launch(context, poetry?.author_id)
+                PoemActivity.launch(context, poetry?.author_id, poetry?.author)
             }
             R.id.tv_collect -> {
                 if (poetry == null) return

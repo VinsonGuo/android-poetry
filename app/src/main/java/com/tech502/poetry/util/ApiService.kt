@@ -16,7 +16,7 @@ interface ApiService {
     fun randomTenPoetry(): Observable<BaseResponse<MutableList<Poetry>>>
 
     @POST("poemInfo")
-    fun poemInfo(@Query("author_id") author_id: String): Observable<BaseResponse<Poem>>
+    fun poemInfo(@Query("author_id") author_id: String, @Query("author_name") author_name: String): Observable<BaseResponse<Poem>>
 
 
     @POST("searchPoetry")

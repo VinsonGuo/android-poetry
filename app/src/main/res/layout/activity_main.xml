@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.guoziwei.poetry.ui.MainActivity">
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -58,7 +57,7 @@
         </LinearLayout>
 
 
-        <com.guoziwei.poetry.view.YViewPager
+        <com.tech502.poetry.view.YViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

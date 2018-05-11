@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.guoziwei.poetry"
+        applicationId "com.tech502.poetry"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
@@ -16,9 +16,13 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
     }
     repositories {
         maven { url "https://jitpack.io" }
@@ -53,12 +57,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     compile 'com.umeng.sdk:common:1.5.0'
     compile 'com.umeng.sdk:analytics:7.5.0'
-    compile 'org.litepal.android:core:1.6.1'
     compile 'org.greenrobot:eventbus:3.1.1'
     debugCompile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.zqc.opencc.android.lib:lib-opencc-android:0.8.0@aar'
     compile 'com.github.XhinLiang:LunarCalendar:3.0.0'
     compile 'me.immortalz:transitionhelper:2.3.4'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
-    compile 'cc.sayaki.widget:plumb-textview:1.0.1'
+    implementation project(':litepal')
 }

@@ -36,9 +36,15 @@
 }
 # Ignore annotation used for build tooling.
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-dontwarn org.conscrypt.**
+# A resource is loaded with a relative path so the package of this class must be preserved.
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 
 #gson
--keep class com.guoziwei.poetry.model.** {
+-keep class com.tech502.poetry.model.** {
     *;
 }
 
@@ -72,7 +78,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
--keep public class com.guoziwei.timerecorder.R$*{
+-keep public class com.tech502.poetry.R$*{
 public static final int *;
 }
 
@@ -89,6 +95,6 @@ public static final int *;
 -dontwarn de.greenrobot.event.util.*$SupportManagerFragment
 
 #自定义view
--keep class com.guoziwei.poetry.view.** {
+-keep class com.tech502.poetry.view.** {
     *;
 }

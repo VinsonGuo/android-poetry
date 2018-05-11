@@ -57,11 +57,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
         v.findViewById<View>(R.id.tv_share).setOnClickListener(this)
         mTvCollect = v.findViewById(R.id.tv_collect)
         mTvCollect?.setOnClickListener(this)
-        // 搜索数据库是否保存
-        isCollect = DataSupport
-                .where("poetry_id = ?", poetry?.poetry_id)
-                .count(Poetry::class.java) > 0
-        mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
+
         mScrollView?.post({ mScrollView?.fullScroll(View.FOCUS_RIGHT) })
 
         Utils.setText(mTvContent, poetry?.content)
@@ -75,6 +71,15 @@ class ContentFragment : Fragment(), View.OnClickListener {
         return v
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        // 搜索数据库是否保存
+        isCollect = DataSupport
+                .where("poetry_id = ?", poetry?.poetry_id)
+                .count(Poetry::class.java) > 0
+        mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
+    }
 
     override fun onClick(v: View) {
         when (v.id) {

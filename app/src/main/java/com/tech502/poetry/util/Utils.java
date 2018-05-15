@@ -168,7 +168,7 @@ public class Utils {
     public static void setText(TextView tv, String text, boolean filterSymbol) {
         text = text.replaceAll("\\|", "\n");
         if (filterSymbol) {
-            text = text.replaceAll("[，。？!、]", "\t");
+            text = text.replaceAll("[，。？！、]", "\t");
         }
         if (tv instanceof VerticalTextView) {
             text = text.replace('“', '﹃')

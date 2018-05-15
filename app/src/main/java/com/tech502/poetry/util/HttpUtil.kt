@@ -25,7 +25,7 @@ object HttpUtil {
                 .addConverterFactory(
                         GsonConverterFactory.create())
 //                .baseUrl("http://devices.e-toys.cn/api/poet/")
-                .baseUrl("http://47.104.93.195:8080/api/")
+                .baseUrl("http://502tech.com/poetry/")
                 .build()
         retrofit.create(ApiService::class.java)
     }

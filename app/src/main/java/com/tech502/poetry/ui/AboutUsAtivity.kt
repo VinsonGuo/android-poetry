@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.tech502.poetry.R
 
-
 class AboutUsActivity : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +15,7 @@ class AboutUsActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_about_us)
         findViewById<TextView>(R.id.tv_title).text = getVersion()
         findViewById<TextView>(R.id.tv_mail_address).setOnClickListener(this)
+        findViewById<TextView>(R.id.tv_back).setOnClickListener(this)
     }
 
     private fun getVersion(): String {
@@ -31,6 +31,7 @@ class AboutUsActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tv_mail_address -> onClickCopy()
+            R.id.tv_back -> finish()
         }
     }
 

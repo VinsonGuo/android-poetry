@@ -49,15 +49,16 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poetry_font"
             android:text="502工作室"
             android:textColor="@color/main_text_color"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_mail_address"
@@ -66,7 +67,7 @@
             android:fontFamily="@font/poetry_font"
             android:text="@string/mail502tech"
             android:textColor="@color/main_text_color"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView

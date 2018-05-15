@@ -12,16 +12,14 @@ import retrofit2.http.Query
  */
 interface ApiService {
 
-    @POST("randomTenPoetry")
+    @POST("poetrys/randomTenPoetry")
     fun randomTenPoetry(): Observable<BaseResponse<MutableList<Poetry>>>
 
-    @POST("poemInfo")
+    @POST("poem/poemInfo")
     fun poemInfo(@Query("author_id") author_id: String, @Query("author_name") author_name: String): Observable<BaseResponse<Poem>>
 
 
-    @POST("searchPoetry")
+    @POST("poetrys/searchPoetry")
     fun searchPoetry(@Query("keyword") queryKey: String?, @Query("page") page: Int): Observable<BaseResponse<MutableList<Poetry>>>
 
-    @POST("randomPoetry")
-    fun randomPoetry(): Observable<BaseResponse<Poetry>>
 }

@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:drawablePadding="@dimen/dp_10"
         android:gravity="center"
-        android:drawableTop="@mipmap/ic_launcher"
+        android:drawableTop="@mipmap/ic_launcher_pic"
         android:fontFamily="@font/poetry_font"
         android:text="@string/app_name"
         android:textColor="@color/main_text_color"

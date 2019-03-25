@@ -2,9 +2,11 @@ package com.tech502.poetry.ui
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.tech502.poetry.model.DataBase
 import com.tech502.poetry.model.Poetry
 import com.tech502.poetry.ui.adapter.PoetryAdapter
-import org.litepal.crud.DataSupport
+import com.tech502.poetry.util.Utils
+import io.reactivex.Observable
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
@@ -30,11 +32,16 @@ class PoetryLikeListFragment : ListFragment<Poetry>() {
     }
 
     override fun loadData() {
-        val list = DataSupport
-                .limit(pageCount)
-                .offset(mPage * pageCount)
-                .order("id desc")
-                .find(Poetry::class.java)
-        loadDataSuccess(list)
+
+        Observable.fromCallable {
+            DataBase.getAppDataBase(mContext)
+                    .poetryDao()
+                    .getByPage(mPage)
+        }
+                .compose(Utils.applySchedulers())
+                .subscribe({
+                    loadDataSuccess(it)
+                }, { Utils.showToast(mContext, it.message) })
+
     }
 }

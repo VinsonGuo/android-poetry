@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Poetry.iml" filepath="$PROJECT_DIR$/Poetry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/android-poetry.iml" filepath="$PROJECT_DIR$/.idea/android-poetry.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-poetry.iml" filepath="$PROJECT_DIR$/android-poetry.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/android-poetry.iml" filepath="$PROJECT_DIR$/.idea/android-poetry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/litepal/litepal.iml" filepath="$PROJECT_DIR$/litepal/litepal.iml" />
     </modules>

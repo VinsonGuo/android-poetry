@@ -21,7 +21,7 @@ import java.util.List;
  * Created by guoziwei on 2017/12/16.
  */
 
-public abstract class ListFragment<T> extends RxFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public abstract class ListFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static final int PAGE_COUNT = 10;
 

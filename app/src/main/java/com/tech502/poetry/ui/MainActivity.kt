@@ -3,7 +3,6 @@ package com.tech502.poetry.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.viewpager.widget.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
@@ -78,7 +77,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 .compose(Utils.applyBizSchedulers<BaseResponse<MutableList<Poetry>>>())
                 .compose(bindUntilEvent<BaseResponse<MutableList<Poetry>>>(ActivityEvent.DESTROY))
                 .subscribe({
-                    fragments.addAll(it.data.map { ContentFragment.newInstance(it) })
+                    fragments += it.data.map { item -> ContentFragment.newInstance(item) }
                     adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
                     view_pager.adapter = adapter
                     view_pager.setCurrentItem(Math.max(0, fragments.size - 11), false)

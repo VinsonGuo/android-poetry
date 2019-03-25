@@ -1,21 +1,21 @@
 package com.tech502.poetry.model
 
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import org.litepal.annotation.Column
-import org.litepal.crud.DataSupport
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
  */
 data class BaseResponse<out T>(val status: Int, val msg: String, val data: T)
 
-data class Poetry(@SerializedName("id") @Column(unique = true) val poetry_id: String,
+@Parcelize
+@Entity
+data class Poetry(@PrimaryKey(autoGenerate = false) @SerializedName("id") val poetry_id: String,
                   val title: String, val author_id: String,
-                  val content: String, val dynasty: String, val author: String) : Serializable, DataSupport() {
-
-    constructor() : this("", "", "", "", "", "")
-
-}
+                  val content: String, val dynasty: String,
+                  val author: String, var update_time: Long = System.currentTimeMillis()) : Parcelable
 
 data class Poem(val name: String, @SerializedName("intro_l") val introduce: String)

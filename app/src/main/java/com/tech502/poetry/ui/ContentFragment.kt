@@ -47,8 +47,8 @@ class ContentFragment : Fragment(), View.OnClickListener {
         poetry = arguments.getSerializable("data") as Poetry?
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v: View = inflater?.inflate(R.layout.fragment_content, container, false)!!
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val v: View = inflater.inflate(R.layout.fragment_content, container, false)
         mScrollView = v.findViewById(R.id.scrollView)
         val tvTitle = v.findViewById<VerticalTextView>(R.id.tv_title)
         mTvContent = v.findViewById(R.id.tv_content)
@@ -86,13 +86,13 @@ class ContentFragment : Fragment(), View.OnClickListener {
             R.id.tv_share -> {
                 val rxPermissions = RxPermissions(activity)
                 rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .subscribe({
+                        .subscribe {
                             if (it) {
                                 share()
                             } else {
                                 Utils.showToast(context, "分享失败，请打开读写手机存储的权限")
                             }
-                        })
+                        }
             }
             R.id.tv_author_intro -> {
                 PoemActivity.launch(context, poetry?.author_id, poetry?.author)
@@ -102,13 +102,13 @@ class ContentFragment : Fragment(), View.OnClickListener {
                 if (isCollect) {
                     AlertDialog.Builder(context)
                             .setMessage("确定要取消收藏么？")
-                            .setPositiveButton("确定", { dialog, which ->
+                            .setPositiveButton("确定") { dialog, which ->
                                 //                                val count = DataSupport.deleteAll(Poetry::class.java, "poetry_id = ?", poetry?.poetry_id)
                                 if (poetry?.delete()!! > 0) {
                                     isCollect = false
                                 }
                                 mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
-                            })
+                            }
                             .setNegativeButton("取消", null)
                             .show()
                 } else {

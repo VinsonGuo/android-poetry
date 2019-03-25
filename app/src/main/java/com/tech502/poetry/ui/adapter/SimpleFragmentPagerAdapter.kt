@@ -7,31 +7,22 @@ import android.support.v4.app.FragmentStatePagerAdapter
 /**
  * Created by guoziwei on 2018/4/3.
  */
-class SimpleFragmentPagerAdapter : FragmentStatePagerAdapter {
-    private var mFragments: List<Fragment>? = null
-    private var mTitles: List<String>? = null
-
-
-    constructor(fm: FragmentManager, fragments: List<Fragment>) : super(fm) {
-        mFragments = fragments
-    }
-
-
-    constructor(fm: FragmentManager, fragments: List<Fragment>, titles: List<String>) : this(fm, fragments) {
-        mTitles = titles
-    }
+class SimpleFragmentPagerAdapter(fm: FragmentManager,
+                                 private val fragments: List<Fragment>,
+                                 private val titles: List<String>? = null)
+    : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return mFragments!![position]
+        return fragments[position]
     }
 
     override fun getCount(): Int {
-        return mFragments!!.size
+        return fragments.size
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return if (mTitles != null && mTitles!!.isNotEmpty()) {
-            mTitles!![position]
+        return if (!titles.isNullOrEmpty()) {
+            titles[position]
         } else super.getPageTitle(position)
     }
 

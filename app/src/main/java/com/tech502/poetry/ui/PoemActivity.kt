@@ -1,5 +1,6 @@
 package com.tech502.poetry.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,7 @@ import com.tech502.poetry.model.Poem
 import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils
 import com.trello.rxlifecycle2.android.ActivityEvent
+import kotlinx.android.synthetic.main.activity_poem.*
 
 class PoemActivity : BaseActivity() {
 
@@ -29,13 +31,13 @@ class PoemActivity : BaseActivity() {
         val id = intent.getStringExtra("data")
         val name = intent.getStringExtra("name")
 
-        findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
+        tv_back.setOnClickListener { finish() }
         HttpUtil.create().poemInfo(id, name)
                 .compose(Utils.applyBizSchedulers<BaseResponse<Poem>>())
                 .compose(bindUntilEvent<BaseResponse<Poem>>(ActivityEvent.DESTROY))
                 .subscribe({
-                    Utils.setText(findViewById<TextView>(R.id.tv_poem), it.data.introduce, false)
-                    Utils.setText(findViewById<TextView>(R.id.tv_title), it.data.name)
+                    Utils.setText(tv_poem, it.data.introduce, false)
+                    Utils.setText(tv_title, it.data.name)
                 }, {
                     Utils.showToast(this, it.message)
                 })

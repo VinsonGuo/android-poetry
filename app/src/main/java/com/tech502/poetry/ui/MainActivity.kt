@@ -6,8 +6,6 @@ import android.os.Handler
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.TextView
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.tech502.poetry.R
 import com.tech502.poetry.model.BaseResponse
@@ -15,32 +13,30 @@ import com.tech502.poetry.model.Poetry
 import com.tech502.poetry.ui.adapter.SimpleFragmentPagerAdapter
 import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils
-import com.tech502.poetry.view.YViewPager
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yalantis.guillotine.animation.GuillotineAnimation
 import com.yalantis.guillotine.interfaces.GuillotineListener
 import immortalz.me.library.TransitionsHeleper
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.guillotine_menu.view.*
 
 
 class MainActivity : BaseActivity(), View.OnClickListener {
 
-    private var mMenu: GuillotineAnimation? = null
-    private var viewpager: YViewPager? = null
     private var adapter: SimpleFragmentPagerAdapter? = null
 
     private var mIsMenuOpen = false
 
     private val fragments = mutableListOf<ContentFragment>()
 
+    private var mMenu: GuillotineAnimation? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val tvSearch = findViewById<TextView>(R.id.tv_search)
-        tvSearch.setOnClickListener(this)
-        val tvTitle = findViewById<TextView>(R.id.tv_title)
-        viewpager = findViewById(R.id.view_pager)
-        viewpager?.setPageTransformer(false, CubeOutTransformer())
-        viewpager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        tv_search.setOnClickListener(this)
+        view_pager.setPageTransformer(false, CubeOutTransformer())
+        view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -54,14 +50,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
 
         })
-        val rootView = findViewById<FrameLayout>(R.id.root)
-        val guillotineMenu = LayoutInflater.from(this).inflate(R.layout.guillotine_menu, rootView, false)
-        rootView.addView(guillotineMenu)
-        guillotineMenu.findViewById<View>(R.id.tv_toggle_simplify).setOnClickListener(this)
-        guillotineMenu.findViewById<View>(R.id.tv_menu_list).setOnClickListener(this)
-        guillotineMenu.findViewById<View>(R.id.tv_menu_about).setOnClickListener(this)
+        val guillotineMenu = LayoutInflater.from(this).inflate(R.layout.guillotine_menu, root, false)
+        root.addView(guillotineMenu)
+        guillotineMenu.tv_toggle_simplify.setOnClickListener(this)
+        guillotineMenu.tv_menu_list.setOnClickListener(this)
+        guillotineMenu.tv_menu_about.setOnClickListener(this)
 
-        mMenu = GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.tv_close), findViewById(R.id.tv_menu))
+        mMenu = GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.tv_close, tv_menu)
                 .setActionBarViewForAnimation(findViewById(R.id.toolbar))
                 .setClosedOnStart(true)
                 .setGuillotineListener(object : GuillotineListener {
@@ -85,8 +80,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 .subscribe({
                     fragments.addAll(it.data.map { ContentFragment.newInstance(it) })
                     adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
-                    viewpager?.adapter = adapter
-                    viewpager?.setCurrentItem(Math.max(0, fragments.size - 11), false)
+                    view_pager.adapter = adapter
+                    view_pager.setCurrentItem(Math.max(0, fragments.size - 11), false)
                 }, {
                     Utils.showToast(this, it.message)
                 })

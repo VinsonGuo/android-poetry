@@ -3,11 +3,8 @@ package com.tech502.poetry.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.widget.TextView
 import com.tech502.poetry.R
 import com.tech502.poetry.util.Utils
-import com.xhinliang.lunarcalendar.LunarCalendar
-import java.util.*
 
 class SplashActivity : BaseActivity() {
 
@@ -22,11 +19,6 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         Utils.initLocation(this)
         mHandler.postDelayed(callback, 2000)
-        val tv = findViewById<TextView>(R.id.tv)
-//        val now: Calendar = Calendar.getInstance()
-//        val calendar: LunarCalendar = LunarCalendar.obtainCalendar(now.get(Calendar.YEAR),
-//                now.get(Calendar.MONTH) + 1, now.get(Calendar.DAY_OF_MONTH))
-//        Utils.setText(tv, calendar.fullLunarStr)
 
     }
 

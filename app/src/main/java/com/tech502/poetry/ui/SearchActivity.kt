@@ -8,17 +8,15 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.ImageView
 import com.tech502.poetry.R
 import com.tech502.poetry.util.Utils
 import immortalz.me.library.TransitionsHeleper
 import immortalz.me.library.bean.InfoBean
 import immortalz.me.library.method.ColorShowMethod
+import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : BaseActivity() {
-
-    private var etContent: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +46,7 @@ class SearchActivity : BaseActivity() {
                 .replace(R.id.fl_container, PoetryListFragment.newInstance(""))
                 .commit()
         findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
-        etContent = findViewById<EditText>(R.id.et_content)
-        etContent?.setOnEditorActionListener { v, actionId, event ->
+        et_content.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_NULL
                     && event.action == KeyEvent.ACTION_DOWN) {
                 search()
@@ -65,7 +62,7 @@ class SearchActivity : BaseActivity() {
         Utils.closeKeyboard(this)
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fl_container, PoetryListFragment.newInstance(etContent?.text.toString().trim()))
+                .replace(R.id.fl_container, PoetryListFragment.newInstance(et_content.text.toString().trim()))
                 .commit()
     }
 

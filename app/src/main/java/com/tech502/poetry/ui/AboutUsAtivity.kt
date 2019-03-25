@@ -4,18 +4,18 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import com.tech502.poetry.R
+import kotlinx.android.synthetic.main.activity_about_us.*
 
 class AboutUsActivity : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_us)
-        findViewById<TextView>(R.id.tv_title).text = getVersion()
-        findViewById<TextView>(R.id.tv_mail_address).setOnClickListener(this)
-        findViewById<TextView>(R.id.tv_back).setOnClickListener(this)
+        tv_title.text = getVersion()
+        tv_mail_address.setOnClickListener(this)
+        tv_back.setOnClickListener(this)
     }
 
     private fun getVersion(): String {

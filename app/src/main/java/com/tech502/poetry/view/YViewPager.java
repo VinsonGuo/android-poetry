@@ -12,21 +12,20 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
-import android.support.v4.os.ParcelableCompat;
-import android.support.v4.os.ParcelableCompatCreatorCallbacks;
-import android.support.v4.view.AbsSavedState;
-import android.support.v4.view.AccessibilityDelegateCompat;
-import android.support.v4.view.KeyEventCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.VelocityTrackerCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.WindowInsetsCompat;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
-import android.support.v4.view.accessibility.AccessibilityRecordCompat;
-import android.support.v4.widget.EdgeEffectCompat;
+import androidx.core.os.ParcelableCompat;
+import androidx.core.os.ParcelableCompatCreatorCallbacks;
+import androidx.customview.view.AbsSavedState;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.core.view.VelocityTrackerCompat;
+import androidx.core.view.ViewCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.accessibility.AccessibilityEventCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.accessibility.AccessibilityRecordCompat;
+import androidx.core.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.FocusFinder;
@@ -46,7 +45,6 @@ import android.widget.Scroller;
 import com.tech502.poetry.R;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -313,7 +311,7 @@ public class YViewPager extends ViewPager {
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(this,
-                new android.support.v4.view.OnApplyWindowInsetsListener() {
+                new androidx.core.view.OnApplyWindowInsetsListener() {
                     private final Rect mTempRect = new Rect();
 
                     @Override
@@ -2736,7 +2734,7 @@ public class YViewPager extends ViewPager {
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             final int layerType = enable
-                    ? ViewCompat.LAYER_TYPE_HARDWARE : ViewCompat.LAYER_TYPE_NONE;
+                    ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
             ViewCompat.setLayerType(getChildAt(i), layerType, null);
         }
     }
@@ -3771,9 +3769,9 @@ public class YViewPager extends ViewPager {
                     if (Build.VERSION.SDK_INT >= 11) {
                         // The focus finder had a bug handling FOCUS_FORWARD and FOCUS_BACKWARD
                         // before Android 3.0. Ignore the tab key on those devices.
-                        if (KeyEventCompat.hasNoModifiers(event)) {
+                        if (event.hasNoModifiers()) {
                             handled = arrowScroll(FOCUS_FORWARD);
-                        } else if (KeyEventCompat.hasModifiers(event, KeyEvent.META_SHIFT_ON)) {
+                        } else if (event.hasModifiers(KeyEvent.META_SHIFT_ON)) {
                             handled = arrowScroll(FOCUS_BACKWARD);
                         }
                     }
@@ -3995,7 +3993,7 @@ public class YViewPager extends ViewPager {
     @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         // Dispatch scroll events from this ViewPager.
-        if (event.getEventType() == AccessibilityEventCompat.TYPE_VIEW_SCROLLED) {
+        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
             return super.dispatchPopulateAccessibilityEvent(event);
         }
 
@@ -4043,7 +4041,7 @@ public class YViewPager extends ViewPager {
             final AccessibilityRecordCompat recordCompat =
                     AccessibilityEventCompat.asRecord(event);
             recordCompat.setScrollable(canScroll());
-            if (event.getEventType() == AccessibilityEventCompat.TYPE_VIEW_SCROLLED
+            if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_SCROLLED
                     && mAdapter != null) {
                 recordCompat.setItemCount(getAdapterCount());
                 recordCompat.setFromIndex(mCurItem);

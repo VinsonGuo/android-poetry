@@ -11,10 +11,10 @@ import java.io.Serializable
 data class BaseResponse<out T>(val status: Int, val msg: String, val data: T)
 
 data class Poetry(@SerializedName("id") @Column(unique = true) val poetry_id: String,
-                  val title: String, val yunlv_rule: String, val author_id: String,
+                  val title: String, val author_id: String,
                   val content: String, val dynasty: String, val author: String) : Serializable, DataSupport() {
 
-    constructor() : this("", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "")
 
 }
 

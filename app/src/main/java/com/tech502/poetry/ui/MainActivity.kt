@@ -3,7 +3,7 @@ package com.tech502.poetry.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
@@ -36,7 +36,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
         tv_search.setOnClickListener(this)
         view_pager.setPageTransformer(false, CubeOutTransformer())
-        view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        view_pager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 

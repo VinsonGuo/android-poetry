@@ -5,14 +5,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.tech502.poetry"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -25,6 +25,9 @@ android {
         abortOnError false
     }
     repositories {
+        maven {
+            url 'https://maven.google.com/'
+        }
         maven { url "https://jitpack.io" }
         maven {
             url 'https://dl.bintray.com/qichuan/maven/'
@@ -35,31 +38,36 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.github.Yalantis:GuillotineMenu-Android:1.2'
-    compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
-    compile 'io.reactivex.rxjava2:rxjava:2.2.7'
-    compile 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.0.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation 'com.github.Yalantis:GuillotineMenu-Android:1.2'
+    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    compile 'com.umeng.sdk:common:1.5.0'
-    compile 'com.umeng.sdk:analytics:7.5.0'
-    compile 'org.greenrobot:eventbus:3.1.1'
-    debugCompile 'com.facebook.stetho:stetho:1.5.0'
-    compile 'com.zqc.opencc.android.lib:lib-opencc-android:0.8.0@aar'
-    compile 'com.github.XhinLiang:LunarCalendar:3.0.0'
-    compile 'me.immortalz:transitionhelper:2.3.4'
-    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+    implementation 'com.umeng.sdk:common:1.5.0'
+    implementation 'com.umeng.sdk:analytics:7.5.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.zqc.opencc.android.lib:lib-opencc-android:0.8.0@aar'
+    implementation 'com.github.XhinLiang:LunarCalendar:3.0.0'
+    implementation 'me.immortalz:transitionhelper:2.3.4'
+    implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
+
+    def room_version = "2.1.0-alpha06"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
     implementation project(':litepal')
 }

@@ -6,7 +6,7 @@
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStart="0dp">
@@ -25,7 +25,7 @@
             android:textColor="@color/second_text_color"
             android:textSize="16sp"
             android:textStyle="bold" />
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <View
         android:layout_width="match_parent"

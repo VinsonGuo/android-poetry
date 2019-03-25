@@ -3,9 +3,9 @@ package com.tech502.poetry.ui
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.FileProvider
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.core.content.FileProvider
+import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +44,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        poetry = arguments.getSerializable("data") as Poetry?
+        poetry = arguments?.getSerializable("data") as Poetry?
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -84,7 +84,7 @@ class ContentFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_share -> {
-                val rxPermissions = RxPermissions(activity)
+                val rxPermissions = RxPermissions(activity!!)
                 rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe {
                             if (it) {
@@ -95,12 +95,12 @@ class ContentFragment : Fragment(), View.OnClickListener {
                         }
             }
             R.id.tv_author_intro -> {
-                PoemActivity.launch(context, poetry?.author_id, poetry?.author)
+                PoemActivity.launch(v.context, poetry?.author_id, poetry?.author)
             }
             R.id.tv_collect -> {
                 if (poetry == null) return
                 if (isCollect) {
-                    AlertDialog.Builder(context)
+                    AlertDialog.Builder(v.context)
                             .setMessage("确定要取消收藏么？")
                             .setPositiveButton("确定") { dialog, which ->
                                 //                                val count = DataSupport.deleteAll(Poetry::class.java, "poetry_id = ?", poetry?.poetry_id)
@@ -129,8 +129,8 @@ class ContentFragment : Fragment(), View.OnClickListener {
                 .subscribe({
                     val sharingIntent = Intent(Intent.ACTION_SEND)
                     val screenshotUri = FileProvider.getUriForFile(
-                            context,
-                            context.packageName + ".provider",
+                            context!!,
+                            context?.packageName + ".provider",
                             it)
 
                     sharingIntent.type = "image/jpeg"

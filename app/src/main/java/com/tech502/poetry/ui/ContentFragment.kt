@@ -6,30 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.tech502.poetry.R
-import com.tech502.poetry.model.DataBase
 import com.tech502.poetry.model.Poetry
+import com.tech502.poetry.model.PoetryContentViewModel
 import com.tech502.poetry.util.Utils
-import com.tech502.poetry.view.HScrollView
-import com.tech502.poetry.view.VerticalTextView
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_content.view.*
 
 
 /**
  * Created by guoziwei on 2018/4/24 0024.
  */
-class ContentFragment : BaseFragment(), View.OnClickListener {
+class ContentFragment : BaseFragment() {
 
-    private var mTvContent: VerticalTextView? = null
-    private var mTvCollect: TextView? = null
-    private var mScrollView: HScrollView? = null
 
     private lateinit var poetry: Poetry
-    private var isCollect: Boolean = false
 
     companion object {
         fun newInstance(poetry: Poetry): ContentFragment {
@@ -46,104 +41,56 @@ class ContentFragment : BaseFragment(), View.OnClickListener {
         poetry = arguments?.getParcelable("data") as Poetry
     }
 
+    private val viewModel: PoetryContentViewModel by lazy {
+        ViewModelProviders.of(this).get(PoetryContentViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_content, container, false)
-        mScrollView = v.findViewById(R.id.scrollView)
-        val tvTitle = v.findViewById<VerticalTextView>(R.id.tv_title)
-        mTvContent = v.findViewById(R.id.tv_content)
-        val tvAuthor = v.findViewById<VerticalTextView>(R.id.tv_author)
-        v.findViewById<View>(R.id.tv_author_intro).setOnClickListener(this)
-        v.findViewById<View>(R.id.tv_share).setOnClickListener(this)
-        mTvCollect = v.findViewById(R.id.tv_collect)
-        mTvCollect?.setOnClickListener(this)
 
-        mScrollView?.post { mScrollView?.fullScroll(View.FOCUS_RIGHT) }
+        v.scrollView.post { v.scrollView.fullScroll(View.FOCUS_RIGHT) }
 
-        Utils.setText(mTvContent, poetry.content)
+        Utils.setText(v.tv_content, poetry.content)
         val dynasty = when (poetry.dynasty) {
             "T" -> "唐"
             "S" -> "宋"
             else -> ""
         }
-        Utils.setText(tvAuthor, "︻$dynasty︼  ${poetry.author}")
-        Utils.setText(tvTitle, poetry.title)
+        Utils.setText(v.tv_author, "︻$dynasty︼  ${poetry.author}")
+        Utils.setText(v.tv_title, poetry.title)
+
+        v.tv_author_intro.setOnClickListener { PoemActivity.launch(v.context, poetry.author_id, poetry.author) }
+        v.tv_share.setOnClickListener {
+            val rxPermissions = RxPermissions(activity!!)
+            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe {
+                        if (it) {
+                            share(v.scrollView)
+                        } else {
+                            Utils.showToast(context, "分享失败，请打开读写手机存储的权限")
+                        }
+                    }
+        }
+        v.tv_collect.setOnClickListener { viewModel.setCollect(mContext, poetry) }
+
+        viewModel.isCollect.observe(this, Observer {
+            v.tv_collect.setText(if (it) R.string.cancel_collect else R.string.collect)
+        })
+        viewModel.message.observe(this, Observer { Utils.showToast(mContext, it) })
         return v
     }
 
 
     override fun onResume() {
         super.onResume()
-        // 搜索数据库是否保存
-        Observable.fromCallable {
-            val list = DataBase.getAppDataBase(mContext)
-                    .poetryDao()
-                    .getByPoetryId(poetry_id = poetry.poetry_id)
-            return@fromCallable list.isNotEmpty()
-        }
-                .compose(Utils.applySchedulers())
-                .subscribe({
-                    isCollect = it
-                    mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
-                }, { Utils.showToast(mContext, it.message) })
+        viewModel.loadCollect(mContext, poetry)
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.tv_share -> {
-                val rxPermissions = RxPermissions(activity!!)
-                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .subscribe {
-                            if (it) {
-                                share()
-                            } else {
-                                Utils.showToast(context, "分享失败，请打开读写手机存储的权限")
-                            }
-                        }
-            }
-            R.id.tv_author_intro -> {
-                PoemActivity.launch(v.context, poetry.author_id, poetry.author)
-            }
-            R.id.tv_collect -> {
-                if (isCollect) {
-                    AlertDialog.Builder(v.context)
-                            .setMessage("确定要取消收藏么？")
-                            .setPositiveButton("确定") { dialog, which ->
-                                Observable.fromCallable {
-                                    DataBase.getAppDataBase(mContext)
-                                            .poetryDao()
-                                            .delete(poetry)
-                                    return@fromCallable true
-                                }
-                                        .compose(Utils.applySchedulers())
-                                        .subscribe({
-                                            isCollect = false
-                                            mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
-                                        }, { Utils.showToast(mContext, it.message) })
-                            }
-                            .setNegativeButton("取消", null)
-                            .show()
-                } else {
-                    Observable.fromCallable {
-                        DataBase.getAppDataBase(mContext)
-                                .poetryDao()
-                                .insert(poetry.apply { update_time = System.currentTimeMillis() })
-                        return@fromCallable true
-                    }
-                            .compose(Utils.applySchedulers())
-                            .subscribe({
-                                Utils.showToast(context, "收藏成功❤️")
-                                isCollect = true
-                                mTvCollect?.setText(if (isCollect) R.string.cancel_collect else R.string.collect)
-                            }, { Utils.showToast(mContext, it.message) })
-                }
-            }
-        }
-    }
 
-    private fun share() {
+    private fun share(v: ViewGroup) {
         Observable.fromCallable {
-            Utils.saveScreenshot(mScrollView?.getChildAt(0), mScrollView?.getChildAt(0)!!.width,
-                    mScrollView?.getChildAt(0)!!.height)
+            Utils.saveScreenshot(v.getChildAt(0), v.getChildAt(0)!!.width,
+                    v.getChildAt(0)!!.height)
         }
                 .compose(Utils.applySchedulers())
                 .subscribe({

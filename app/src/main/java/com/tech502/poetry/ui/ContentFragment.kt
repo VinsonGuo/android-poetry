@@ -61,7 +61,7 @@ class ContentFragment : BaseFragment() {
 
         v.tv_author_intro.setOnClickListener { PoemActivity.launch(v.context, poetry.author_id, poetry.author) }
         v.tv_share.setOnClickListener {
-            val rxPermissions = RxPermissions(activity!!)
+            val rxPermissions = RxPermissions(activity ?: return@setOnClickListener)
             rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe {
                         if (it) {

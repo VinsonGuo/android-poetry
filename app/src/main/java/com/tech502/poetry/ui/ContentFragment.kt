@@ -68,7 +68,7 @@ class ContentFragment : BaseFragment(), CoroutineScope by MainScope() {
                         share(v.scrollView)
                     }
                     .onDenied {
-                        Utils.showToast(context, "分享失败，请打开读写手机存储的权限")
+                        Utils.showToast(mContext, "分享失败，请打开读写手机存储的权限")
                     }
                     .start()
 
@@ -89,27 +89,20 @@ class ContentFragment : BaseFragment(), CoroutineScope by MainScope() {
     }
 
 
-    fun share(v: ViewGroup) {
-        launch {
-            try {
-                val it = withContext(Dispatchers.IO) {
-                    Utils.saveScreenshot(v.getChildAt(0), v.getChildAt(0)!!.width,
-                            v.getChildAt(0)!!.height)
-                }
-                val sharingIntent = Intent(Intent.ACTION_SEND)
-                val screenshotUri = FileProvider.getUriForFile(
-                        context!!,
-                        context?.packageName + ".provider",
-                        it)
-
-                sharingIntent.type = "image/jpeg"
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
-                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_text)))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Utils.showToast(context, R.string.share_error)
-            }
+    private fun share(v: ViewGroup) = launch(Utils.defaultCoroutineExceptionHandler(mContext)) {
+        val it = withContext(Dispatchers.IO) {
+            Utils.saveScreenshot(v.getChildAt(0), v.getChildAt(0)!!.width,
+                    v.getChildAt(0)!!.height)
         }
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        val screenshotUri = FileProvider.getUriForFile(
+                mContext,
+                mContext.packageName + ".provider",
+                it)
+
+        sharingIntent.type = "image/jpeg"
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_text)))
     }
 
 

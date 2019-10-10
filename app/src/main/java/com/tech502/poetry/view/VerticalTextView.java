@@ -104,12 +104,12 @@ public class VerticalTextView extends AppCompatTextView {
     }
 
     public VerticalTextView setLineSpacingExtra(float lineSpacingExtra) {
-        this.mLineSpacingExtra = Utils.dp2px(mContext, lineSpacingExtra);
+        this.mLineSpacingExtra = Utils.INSTANCE.dp2px(mContext, lineSpacingExtra);
         return this;
     }
 
     public VerticalTextView setCharSpacingExtra(float charSpacingExtra) {
-        this.mCharSpacingExtra = Utils.dp2px(mContext, charSpacingExtra);
+        this.mCharSpacingExtra = Utils.INSTANCE.dp2px(mContext, charSpacingExtra);
         return this;
     }
 
@@ -129,7 +129,7 @@ public class VerticalTextView extends AppCompatTextView {
     }
 
     public VerticalTextView setUnderLineOffset(float underLineOffset) {
-        this.mUnderLineOffset = Utils.dp2px(mContext, underLineOffset);
+        this.mUnderLineOffset = Utils.INSTANCE.dp2px(mContext, underLineOffset);
         return this;
     }
 

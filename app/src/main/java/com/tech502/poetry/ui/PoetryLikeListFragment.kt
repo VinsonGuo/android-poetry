@@ -42,6 +42,7 @@ class PoetryLikeListFragment : ListFragment<Poetry>(), CoroutineScope by MainSco
                 loadDataSuccess(it)
             } catch (e: Exception) {
                 Utils.showToast(mContext, e.message)
+                loadFailed()
             }
         }
     }

@@ -2,9 +2,9 @@ package com.tech502.poetry.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
+import androidx.viewpager.widget.ViewPager
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.tech502.poetry.R
 import com.tech502.poetry.model.isSuccess
@@ -35,7 +35,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
         setContentView(R.layout.activity_main)
         tv_search.setOnClickListener(this)
         view_pager.setPageTransformer(false, CubeOutTransformer())
-        view_pager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+        view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -44,7 +44,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
 
             override fun onPageSelected(position: Int) {
                 if (position == fragments.size - 1) {
-                    Handler().postDelayed({ requestData() }, 500)
+                    view_pager.postDelayed({ requestData() }, 500)
                 }
             }
 
@@ -72,23 +72,17 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
         requestData()
     }
 
-    private fun requestData() {
-        launch {
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    HttpUtil.create().randomTenPoetry()
-                }
-                if (response.isSuccess()) {
-                    fragments += response.data.map { item -> ContentFragment.newInstance(item) }
-                    adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
-                    view_pager.adapter = adapter
-                    view_pager.setCurrentItem(max(0, fragments.size - 11), false)
-                } else {
-                    Utils.showToast(this@MainActivity, response.msg)
-                }
-            } catch (e: Exception) {
-                Utils.showToast(this@MainActivity, e.message)
-            }
+    private fun requestData() = launch(Utils.defaultCoroutineExceptionHandler(this)) {
+        val response = withContext(Dispatchers.IO) {
+            HttpUtil.create().randomTenPoetry()
+        }
+        if (response.isSuccess()) {
+            fragments += response.data.map { item -> ContentFragment.newInstance(item) }
+            adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
+            view_pager.adapter = adapter
+            view_pager.setCurrentItem(max(0, fragments.size - 11), false)
+        } else {
+            Utils.showToast(this@MainActivity, response.msg)
         }
     }
 
@@ -100,7 +94,6 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
         }
 
     }
-
 
 
     override fun onClick(v: View) {

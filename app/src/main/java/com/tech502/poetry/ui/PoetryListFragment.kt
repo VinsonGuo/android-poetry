@@ -52,11 +52,11 @@ class PoetryListFragment : ListFragment<Poetry>(), CoroutineScope by MainScope()
                 if (it.isSuccess()) {
                     loadDataSuccess(it.data)
                 } else {
-                    Utils.showToast(context, it.msg)
+                    Utils.showToast(mContext, it.msg)
                     loadFailed()
                 }
             } catch (e: Exception) {
-                Utils.showToast(context, e.message)
+                Utils.showToast(mContext, e.message)
                 loadFailed()
             }
         }

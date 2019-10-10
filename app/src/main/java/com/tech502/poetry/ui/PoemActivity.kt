@@ -30,19 +30,15 @@ class PoemActivity : BaseActivity(), CoroutineScope by MainScope() {
         tv_back.setOnClickListener { finish() }
 
 
-        launch {
-            try {
-                val it = withContext(Dispatchers.IO) {
-                    HttpUtil.create().poemInfo(id, name)
-                }
-                if (it.isSuccess()) {
-                    Utils.setText(tv_poem, it.data.introduce, false)
-                    Utils.setText(tv_title, it.data.name)
-                } else {
-                    Utils.showToast(this@PoemActivity, it.msg)
-                }
-            } catch (e: Exception) {
-                Utils.showToast(this@PoemActivity, e.message)
+        launch(Utils.defaultCoroutineExceptionHandler(this)) {
+            val it = withContext(Dispatchers.IO) {
+                HttpUtil.create().poemInfo(id, name)
+            }
+            if (it.isSuccess()) {
+                Utils.setText(tv_poem, it.data.introduce, false)
+                Utils.setText(tv_title, it.data.name)
+            } else {
+                Utils.showToast(this@PoemActivity, it.msg)
             }
         }
     }

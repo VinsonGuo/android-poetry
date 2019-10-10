@@ -3,19 +3,19 @@ package com.tech502.poetry.ui
 import android.os.Bundle
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.tech502.poetry.model.BaseResponse
 import com.tech502.poetry.model.Poetry
+import com.tech502.poetry.model.isSuccess
 import com.tech502.poetry.ui.adapter.PoetryAdapter
 import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils
-import com.trello.rxlifecycle2.android.FragmentEvent
 import com.zqc.opencc.android.lib.ChineseConverter
 import com.zqc.opencc.android.lib.ConversionType
+import kotlinx.coroutines.*
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
  */
-class PoetryListFragment : ListFragment<Poetry>() {
+class PoetryListFragment : ListFragment<Poetry>(), CoroutineScope by MainScope() {
 
     private var queryKey: String? = ""
 
@@ -44,14 +44,26 @@ class PoetryListFragment : ListFragment<Poetry>() {
     }
 
     override fun loadData() {
-        HttpUtil.create().searchPoetry(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
-                .compose(Utils.applyBizSchedulers<BaseResponse<MutableList<Poetry>>>())
-                .compose(bindUntilEvent<BaseResponse<MutableList<Poetry>>>(FragmentEvent.DESTROY))
-                .subscribe({
+        launch {
+            try {
+                val it = withContext(Dispatchers.IO) {
+                    HttpUtil.create().searchPoetry(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
+                }
+                if (it.isSuccess()) {
                     loadDataSuccess(it.data)
-                }, {
-                    Utils.showToast(context, it.message)
+                } else {
+                    Utils.showToast(context, it.msg)
                     loadFailed()
-                })
+                }
+            } catch (e: Exception) {
+                Utils.showToast(context, e.message)
+                loadFailed()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 }

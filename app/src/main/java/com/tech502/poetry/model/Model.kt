@@ -11,6 +11,10 @@ import kotlinx.android.parcel.Parcelize
  */
 data class BaseResponse<out T>(val status: Int, val msg: String, val data: T)
 
+fun <T> BaseResponse<T>.isSuccess(): Boolean {
+    return this.status == 0
+}
+
 @Parcelize
 @Entity
 data class Poetry(@PrimaryKey(autoGenerate = false) @SerializedName("id") val poetry_id: String,

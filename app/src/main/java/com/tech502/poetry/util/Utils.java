@@ -13,16 +13,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
 import android.os.LocaleList;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.StringRes;
+
 import com.tech502.poetry.R;
-import com.tech502.poetry.model.BaseResponse;
 import com.tech502.poetry.ui.MainActivity;
 import com.tech502.poetry.view.VerticalTextView;
 import com.zqc.opencc.android.lib.ChineseConverter;
@@ -32,13 +31,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.Locale;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by zengp on 2017/12/2.
@@ -222,38 +214,4 @@ public class Utils {
         return imagePath;
     }
 
-
-    /**
-     * io线程执行，主线程观察
-     * .compose(RxUtils.<T>applySchedulers())
-     */
-    public static <T> ObservableTransformer<T, T> applySchedulers() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
-                return observable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
-
-    public static <T extends BaseResponse> ObservableTransformer<T, T> applyBizSchedulers() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
-                return observable
-                        .map(new Function<T, T>() {
-                            @Override
-                            public T apply(T t) throws Exception {
-                                if (t.getStatus() != 0) {
-                                    throw new RuntimeException(t.getMsg());
-                                }
-                                return t;
-                            }
-                        })
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
 }

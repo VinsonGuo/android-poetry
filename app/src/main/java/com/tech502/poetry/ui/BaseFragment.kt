@@ -1,9 +1,9 @@
 package com.tech502.poetry.ui
 
 import android.content.Context
-import com.trello.rxlifecycle2.components.support.RxFragment
+import androidx.fragment.app.Fragment
 
-open class BaseFragment : RxFragment() {
+open class BaseFragment : Fragment() {
 
     protected lateinit var mContext: Context
 

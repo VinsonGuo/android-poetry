@@ -1,20 +1,16 @@
 package com.tech502.poetry.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import com.tech502.poetry.R
-import com.tech502.poetry.model.BaseResponse
-import com.tech502.poetry.model.Poem
+import com.tech502.poetry.model.isSuccess
 import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils
-import com.trello.rxlifecycle2.android.ActivityEvent
 import kotlinx.android.synthetic.main.activity_poem.*
+import kotlinx.coroutines.*
 
-class PoemActivity : BaseActivity() {
+class PoemActivity : BaseActivity(), CoroutineScope by MainScope() {
 
     companion object {
         fun launch(context: Context, id: String?, name: String?) {
@@ -32,14 +28,27 @@ class PoemActivity : BaseActivity() {
         val name = intent.getStringExtra("name")
 
         tv_back.setOnClickListener { finish() }
-        HttpUtil.create().poemInfo(id, name)
-                .compose(Utils.applyBizSchedulers<BaseResponse<Poem>>())
-                .compose(bindUntilEvent<BaseResponse<Poem>>(ActivityEvent.DESTROY))
-                .subscribe({
+
+
+        launch {
+            try {
+                val it = withContext(Dispatchers.IO) {
+                    HttpUtil.create().poemInfo(id, name)
+                }
+                if (it.isSuccess()) {
                     Utils.setText(tv_poem, it.data.introduce, false)
                     Utils.setText(tv_title, it.data.name)
-                }, {
-                    Utils.showToast(this, it.message)
-                })
+                } else {
+                    Utils.showToast(this@PoemActivity, it.msg)
+                }
+            } catch (e: Exception) {
+                Utils.showToast(this@PoemActivity, e.message)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 }

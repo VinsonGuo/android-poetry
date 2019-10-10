@@ -3,61 +3,56 @@ package com.tech502.poetry.model
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tech502.poetry.util.Utils
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PoetryContentViewModel : ViewModel() {
     val isCollect: MutableLiveData<Boolean> = MutableLiveData()
     val message: MutableLiveData<String> = MutableLiveData()
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun setCollect(context: Context, poetry: Poetry) {
-        if (isCollect.value != true) {
-            compositeDisposable.add(
-                    Observable.fromCallable {
+        viewModelScope.launch {
+            try {
+                if (isCollect.value != true) {
+                    withContext(Dispatchers.IO) {
                         DataBase.getAppDataBase(context)
                                 .poetryDao()
                                 .insert(poetry.apply { update_time = System.currentTimeMillis() })
-                        return@fromCallable true
                     }
-                            .compose(Utils.applySchedulers())
-                            .subscribe({
-                                isCollect.value = true
-                                message.value = "收藏成功❤️"
-                            }, { message.value = it.message }))
-        } else {
-            compositeDisposable.add(
-                    Observable.fromCallable {
+                    isCollect.value = true
+                    message.value = "收藏成功❤️"
+
+                } else {
+                    withContext(Dispatchers.IO) {
                         DataBase.getAppDataBase(context)
                                 .poetryDao()
                                 .delete(poetry)
-                        return@fromCallable true
                     }
-                            .compose(Utils.applySchedulers())
-                            .subscribe({
-                                isCollect.value = false
-                            }, { message.value = it.message }))
+                    isCollect.value = false
+                }
+            } catch (e: Exception) {
+                message.value = e.message
+            }
         }
     }
 
     fun loadCollect(context: Context, poetry: Poetry) {
         // 搜索数据库是否保存
-        compositeDisposable.add(
-                Observable.fromCallable {
-                    val list = DataBase.getAppDataBase(context)
+        viewModelScope.launch {
+            try {
+                val list = withContext(Dispatchers.IO) {
+                    DataBase.getAppDataBase(context)
                             .poetryDao()
                             .getByPoetryId(poetry_id = poetry.poetry_id)
-                    return@fromCallable list.isNotEmpty()
                 }
-                        .compose(Utils.applySchedulers())
-                        .subscribe({
-                            isCollect.value = it
-                        }, { message.value = it.message }))
+                isCollect.value = list.isNotEmpty()
+            } catch (e: Exception) {
+                message.value = e.message
+            }
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
+
 }

@@ -6,12 +6,12 @@ import com.tech502.poetry.model.DataBase
 import com.tech502.poetry.model.Poetry
 import com.tech502.poetry.ui.adapter.PoetryAdapter
 import com.tech502.poetry.util.Utils
-import io.reactivex.Observable
+import kotlinx.coroutines.*
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
  */
-class PoetryLikeListFragment : ListFragment<Poetry>() {
+class PoetryLikeListFragment : ListFragment<Poetry>(), CoroutineScope by MainScope() {
 
 
     companion object {
@@ -32,16 +32,22 @@ class PoetryLikeListFragment : ListFragment<Poetry>() {
     }
 
     override fun loadData() {
-
-        Observable.fromCallable {
-            DataBase.getAppDataBase(mContext)
-                    .poetryDao()
-                    .getByPage(mPage)
+        launch {
+            try {
+                val it = withContext(Dispatchers.IO) {
+                    DataBase.getAppDataBase(mContext)
+                            .poetryDao()
+                            .getByPage(mPage)
+                }
+                loadDataSuccess(it)
+            } catch (e: Exception) {
+                Utils.showToast(mContext, e.message)
+            }
         }
-                .compose(Utils.applySchedulers())
-                .subscribe({
-                    loadDataSuccess(it)
-                }, { Utils.showToast(mContext, it.message) })
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 }

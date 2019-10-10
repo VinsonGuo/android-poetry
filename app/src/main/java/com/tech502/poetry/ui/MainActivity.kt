@@ -7,20 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.tech502.poetry.R
-import com.tech502.poetry.model.BaseResponse
-import com.tech502.poetry.model.Poetry
+import com.tech502.poetry.model.isSuccess
 import com.tech502.poetry.ui.adapter.SimpleFragmentPagerAdapter
 import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils
-import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yalantis.guillotine.animation.GuillotineAnimation
 import com.yalantis.guillotine.interfaces.GuillotineListener
 import immortalz.me.library.TransitionsHeleper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.guillotine_menu.view.*
+import kotlinx.coroutines.*
+import kotlin.math.max
 
 
-class MainActivity : BaseActivity(), View.OnClickListener {
+class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClickListener {
 
     private var adapter: SimpleFragmentPagerAdapter? = null
 
@@ -73,17 +73,23 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun requestData() {
-        HttpUtil.create().randomTenPoetry()
-                .compose(Utils.applyBizSchedulers<BaseResponse<MutableList<Poetry>>>())
-                .compose(bindUntilEvent<BaseResponse<MutableList<Poetry>>>(ActivityEvent.DESTROY))
-                .subscribe({
-                    fragments += it.data.map { item -> ContentFragment.newInstance(item) }
+        launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    HttpUtil.create().randomTenPoetry()
+                }
+                if (response.isSuccess()) {
+                    fragments += response.data.map { item -> ContentFragment.newInstance(item) }
                     adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
                     view_pager.adapter = adapter
-                    view_pager.setCurrentItem(Math.max(0, fragments.size - 11), false)
-                }, {
-                    Utils.showToast(this, it.message)
-                })
+                    view_pager.setCurrentItem(max(0, fragments.size - 11), false)
+                } else {
+                    Utils.showToast(this@MainActivity, response.msg)
+                }
+            } catch (e: Exception) {
+                Utils.showToast(this@MainActivity, e.message)
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -96,6 +102,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
 
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_toggle_simplify -> Utils.toggleSimplify(this)
@@ -106,4 +113,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
+    }
 }

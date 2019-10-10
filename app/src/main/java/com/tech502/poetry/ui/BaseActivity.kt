@@ -1,14 +1,14 @@
 package com.tech502.poetry.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.gyf.barlibrary.ImmersionBar
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.umeng.analytics.MobclickAgent
 
 /**
  * Created by Administrator on 2018/4/26 0026.
  */
-open class BaseActivity : RxAppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
     private var mImmersionBar: ImmersionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

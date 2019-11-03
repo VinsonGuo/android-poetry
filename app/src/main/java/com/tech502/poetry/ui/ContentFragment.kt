@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.tech502.poetry.R
 import com.tech502.poetry.model.Poetry
-import com.tech502.poetry.model.PoetryContentViewModel
 import com.tech502.poetry.util.Utils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.runtime.Permission
@@ -21,7 +20,7 @@ import kotlinx.coroutines.*
 /**
  * Created by guoziwei on 2018/4/24 0024.
  */
-class ContentFragment : BaseFragment(), CoroutineScope by MainScope() {
+class ContentFragment : BaseFragment() {
 
 
     private lateinit var poetry: Poetry
@@ -41,9 +40,7 @@ class ContentFragment : BaseFragment(), CoroutineScope by MainScope() {
         poetry = arguments?.getParcelable("data") as Poetry
     }
 
-    private val viewModel: PoetryContentViewModel by lazy {
-        ViewModelProviders.of(this).get(PoetryContentViewModel::class.java)
-    }
+    private val viewModel: ContentViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_content, container, false)
@@ -65,7 +62,7 @@ class ContentFragment : BaseFragment(), CoroutineScope by MainScope() {
                     .runtime()
                     .permission(Permission.Group.STORAGE)
                     .onGranted {
-                        share(v.scrollView)
+                        viewModel.share(v.scrollView)
                     }
                     .onDenied {
                         Utils.showToast(mContext, "分享失败，请打开读写手机存储的权限")
@@ -73,41 +70,31 @@ class ContentFragment : BaseFragment(), CoroutineScope by MainScope() {
                     .start()
 
         }
-        v.tv_collect.setOnClickListener { viewModel.setCollect(mContext, poetry) }
+        v.tv_collect.setOnClickListener { viewModel.setCollect(poetry) }
 
         viewModel.isCollect.observe(this, Observer {
             v.tv_collect.setText(if (it) R.string.cancel_collect else R.string.collect)
         })
         viewModel.message.observe(this, Observer { Utils.showToast(mContext, it) })
+        viewModel.shareFile.observe(this, Observer {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            val screenshotUri = FileProvider.getUriForFile(
+                    mContext,
+                    mContext.packageName + ".provider",
+                    it)
+
+            sharingIntent.type = "image/jpeg"
+            sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_text)))
+        })
         return v
     }
 
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadCollect(mContext, poetry)
+        viewModel.loadCollect(poetry)
     }
 
 
-    private fun share(v: ViewGroup) = launch(Utils.defaultCoroutineExceptionHandler(mContext)) {
-        val it = withContext(Dispatchers.IO) {
-            Utils.saveScreenshot(v.getChildAt(0), v.getChildAt(0)!!.width,
-                    v.getChildAt(0)!!.height)
-        }
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        val screenshotUri = FileProvider.getUriForFile(
-                mContext,
-                mContext.packageName + ".provider",
-                it)
-
-        sharingIntent.type = "image/jpeg"
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
-        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_text)))
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
-    }
 }

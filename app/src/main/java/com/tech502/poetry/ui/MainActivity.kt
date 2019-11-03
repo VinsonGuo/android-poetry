@@ -7,7 +7,6 @@ import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.tech502.poetry.R
-import com.tech502.poetry.model.isSuccess
 import com.tech502.poetry.ui.adapter.SimpleFragmentPagerAdapter
 import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils

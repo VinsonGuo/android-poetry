@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha04'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.1.0'
     implementation 'com.github.Yalantis:GuillotineMenu-Android:1.2'
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'

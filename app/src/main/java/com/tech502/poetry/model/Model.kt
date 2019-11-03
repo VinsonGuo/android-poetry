@@ -9,10 +9,8 @@ import kotlinx.android.parcel.Parcelize
 /**
  * Created by guoziwei on 2018/4/26 0026.
  */
-data class BaseResponse<out T>(val status: Int, val msg: String, val data: T)
-
-fun <T> BaseResponse<T>.isSuccess(): Boolean {
-    return this.status == 0
+data class BaseResponse<T>(val status: Int, val msg: String, val data: T) {
+    fun isSuccess() = status == 0
 }
 
 @Parcelize

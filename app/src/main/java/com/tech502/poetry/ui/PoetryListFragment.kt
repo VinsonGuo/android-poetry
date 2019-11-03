@@ -1,23 +1,24 @@
 package com.tech502.poetry.ui
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.tech502.poetry.model.Poetry
-import com.tech502.poetry.model.isSuccess
 import com.tech502.poetry.ui.adapter.PoetryAdapter
-import com.tech502.poetry.util.HttpUtil
 import com.tech502.poetry.util.Utils
 import com.zqc.opencc.android.lib.ChineseConverter
 import com.zqc.opencc.android.lib.ConversionType
-import kotlinx.coroutines.*
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
  */
-class PoetryListFragment : ListFragment<Poetry>(), CoroutineScope by MainScope() {
+class PoetryListFragment : ListFragment<Poetry>() {
 
     private var queryKey: String? = ""
+
+    private val viewModel by viewModels<PoetryListViewModel>()
 
     companion object {
         fun newInstance(queryKey: String): PoetryListFragment {
@@ -32,6 +33,14 @@ class PoetryListFragment : ListFragment<Poetry>(), CoroutineScope by MainScope()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         queryKey = arguments?.getString("data")
+        viewModel.listResource.observe(this, Observer {
+            if (it.isSuccess) {
+                loadDataSuccess(it.data)
+            } else {
+                Utils.showToast(mContext, it.msg)
+                loadFailed()
+            }
+        })
     }
 
     override fun getAdapter(): BaseQuickAdapter<Poetry, out BaseViewHolder> {
@@ -43,27 +52,6 @@ class PoetryListFragment : ListFragment<Poetry>(), CoroutineScope by MainScope()
         return adapter
     }
 
-    override fun loadData() {
-        launch {
-            try {
-                val it = withContext(Dispatchers.IO) {
-                    HttpUtil.create().searchPoetry(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
-                }
-                if (it.isSuccess()) {
-                    loadDataSuccess(it.data)
-                } else {
-                    Utils.showToast(mContext, it.msg)
-                    loadFailed()
-                }
-            } catch (e: Exception) {
-                Utils.showToast(mContext, e.message)
-                loadFailed()
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
-    }
+    override fun loadData()
+            = viewModel.loadListData(ChineseConverter.convert(queryKey, ConversionType.S2T, context), mPage)
 }

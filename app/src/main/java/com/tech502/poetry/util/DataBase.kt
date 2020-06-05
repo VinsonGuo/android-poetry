@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.tech502.poetry.model.Poetry
-import com.tech502.poetry.model.PoetryDao
 
 @Database(entities = [Poetry::class], version = 2)
 abstract class DataBase : RoomDatabase() {

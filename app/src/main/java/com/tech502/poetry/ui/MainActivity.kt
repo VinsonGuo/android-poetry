@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.tech502.poetry.R
 import com.tech502.poetry.ui.adapter.SimpleFragmentPagerAdapter
-import com.tech502.poetry.util.HttpUtil
+import com.tech502.poetry.util.Repository
 import com.tech502.poetry.util.Utils
 import com.yalantis.guillotine.animation.GuillotineAnimation
 import com.yalantis.guillotine.interfaces.GuillotineListener
@@ -72,16 +72,27 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
     }
 
     private fun requestData() = launch(Utils.defaultCoroutineExceptionHandler(this)) {
-        val response = withContext(Dispatchers.IO) {
-            HttpUtil.create().randomTenPoetry()
+        //        val response = withContext(Dispatchers.IO) {
+//            HttpUtil.create().randomTenPoetry()
+//        }
+//        if (response.isSuccess()) {
+//            fragments += response.data.map { item -> ContentFragment.newInstance(item) }
+//            adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
+//            view_pager.adapter = adapter
+//            view_pager.setCurrentItem(max(0, fragments.size - 11), false)
+//        } else {
+//            Utils.showToast(this@MainActivity, response.msg)
+//        }
+        val res = withContext(Dispatchers.IO) {
+            Repository.instance.getLocalPoetryByPage2(1)
         }
-        if (response.isSuccess()) {
-            fragments += response.data.map { item -> ContentFragment.newInstance(item) }
+        if (res.isSuccess && res.data != null) {
+            fragments += res.data.map { item -> ContentFragment.newInstance(item) }
             adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
             view_pager.adapter = adapter
             view_pager.setCurrentItem(max(0, fragments.size - 11), false)
         } else {
-            Utils.showToast(this@MainActivity, response.msg)
+            Utils.showToast(this@MainActivity, res.msg)
         }
     }
 

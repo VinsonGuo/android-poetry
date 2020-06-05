@@ -21,3 +21,9 @@ data class Poetry(@PrimaryKey(autoGenerate = false) @SerializedName("id") val po
                   val author: String, var update_time: Long = System.currentTimeMillis()) : Parcelable
 
 data class Poem(val name: String, @SerializedName("intro_l") val introduce: String)
+
+@Parcelize
+@Entity(tableName = "poetry")
+data class Poetry2(val title: String,
+                   val contents: String,
+                   val author: String) : Parcelable

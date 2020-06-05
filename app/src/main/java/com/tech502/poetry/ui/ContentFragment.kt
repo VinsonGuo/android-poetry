@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.tech502.poetry.R
 import com.tech502.poetry.model.Poetry
+import com.tech502.poetry.model.Poetry2
 import com.tech502.poetry.util.Utils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.runtime.Permission
@@ -23,10 +24,10 @@ import kotlinx.coroutines.*
 class ContentFragment : BaseFragment() {
 
 
-    private lateinit var poetry: Poetry
+    private lateinit var poetry: Poetry2
 
     companion object {
-        fun newInstance(poetry: Poetry): ContentFragment {
+        fun newInstance(poetry: Poetry2): ContentFragment {
             val fragment = ContentFragment()
             val args = Bundle()
             args.putParcelable("data", poetry)
@@ -37,7 +38,7 @@ class ContentFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        poetry = arguments?.getParcelable("data") as Poetry
+        poetry = arguments?.getParcelable("data") as Poetry2
     }
 
     private val viewModel: ContentViewModel by viewModels()
@@ -47,16 +48,16 @@ class ContentFragment : BaseFragment() {
 
         v.scrollView.post { v.scrollView.fullScroll(View.FOCUS_RIGHT) }
 
-        Utils.setText(v.tv_content, poetry.content)
-        val dynasty = when (poetry.dynasty) {
-            "T" -> "唐"
-            "S" -> "宋"
-            else -> ""
-        }
-        Utils.setText(v.tv_author, "︻$dynasty︼  ${poetry.author}")
+        Utils.setText(v.tv_content, poetry.contents)
+//        val dynasty = when (poetry.dynasty) {
+//            "T" -> "唐"
+//            "S" -> "宋"
+//            else -> ""
+//        }
+//        Utils.setText(v.tv_author, "︻$dynasty︼  ${poetry.author}")
         Utils.setText(v.tv_title, poetry.title)
 
-        v.tv_author_intro.setOnClickListener { PoemActivity.launch(v.context, poetry.author_id, poetry.author) }
+//        v.tv_author_intro.setOnClickListener { PoemActivity.launch(v.context, poetry.author_id, poetry.author) }
         v.tv_share.setOnClickListener {
             AndPermission.with(this@ContentFragment)
                     .runtime()
@@ -70,7 +71,7 @@ class ContentFragment : BaseFragment() {
                     .start()
 
         }
-        v.tv_collect.setOnClickListener { viewModel.setCollect(poetry) }
+//        v.tv_collect.setOnClickListener { viewModel.setCollect(poetry) }
 
         viewModel.isCollect.observe(this, Observer {
             v.tv_collect.setText(if (it) R.string.cancel_collect else R.string.collect)
@@ -93,7 +94,7 @@ class ContentFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadCollect(poetry)
+//        viewModel.loadCollect(poetry)
     }
 
 

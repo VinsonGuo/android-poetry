@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-poetry.iml" filepath="$PROJECT_DIR$/android-poetry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/android-poetry-app.iml" filepath="$PROJECT_DIR$/app/android-poetry-app.iml" group="android-poetry/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/github-project-android-poetry.iml" filepath="$PROJECT_DIR$/github-project-android-poetry.iml" group="android-poetry" />
     </modules>
   </component>
 </project>

@@ -1,5 +1,6 @@
 package com.tech502.poetry.util
 
+import com.tech502.poetry.database.DataBaseHelper
 import com.tech502.poetry.model.BaseResponse
 import com.tech502.poetry.model.Poetry
 import com.tech502.poetry.model.Resource
@@ -14,6 +15,7 @@ class Repository {
 
     private val http by lazy { HttpUtil.create() }
     private val dao by lazy { DataBase.getInstance().poetryDao() }
+    private val dao2 by lazy { DataBaseHelper.getInstance().poetryDao() }
 
 
     private suspend fun <T> parseResponse(block: suspend () -> BaseResponse<T>): Resource<T> {
@@ -57,4 +59,6 @@ class Repository {
     suspend fun insertLocalPoetry(m: Poetry) = parseDb { dao.insert(m) }
 
     suspend fun deleteLocalPoetry(m: Poetry) = parseDb { dao.delete(m) }
+
+    suspend fun getLocalPoetryByPage2(page: Int) = parseDb { dao2.getByPage(page) }
 }

@@ -54,7 +54,7 @@ class ContentFragment : BaseFragment() {
 //            "S" -> "宋"
 //            else -> ""
 //        }
-//        Utils.setText(v.tv_author, "︻$dynasty︼  ${poetry.author}")
+        Utils.setText(v.tv_author, poetry.author)
         Utils.setText(v.tv_title, poetry.title)
 
 //        v.tv_author_intro.setOnClickListener { PoemActivity.launch(v.context, poetry.author_id, poetry.author) }

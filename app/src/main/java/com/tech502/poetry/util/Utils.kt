@@ -174,7 +174,6 @@ object Utils {
         val config = tv.context.resources.configuration
         if (config.locale == Locale.TRADITIONAL_CHINESE) {
             tv.text = ChineseConverter.convert(text, ConversionType.S2T, tv.context)
-            //            tv.setText(text);
         } else {
             tv.text = ChineseConverter.convert(text, ConversionType.T2S, tv.context)
         }

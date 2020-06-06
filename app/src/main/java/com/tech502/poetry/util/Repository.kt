@@ -15,7 +15,7 @@ class Repository {
 
     private val http by lazy { HttpUtil.create() }
     private val dao by lazy { DataBase.getInstance().poetryDao() }
-    private val dao2 by lazy { DataBaseHelper.getInstance().poetryDao() }
+    private val dao2 by lazy { DataBaseHelper.getInstance().poetryDao2() }
 
 
     private suspend fun <T> parseResponse(block: suspend () -> BaseResponse<T>): Resource<T> {
@@ -60,5 +60,7 @@ class Repository {
 
     suspend fun deleteLocalPoetry(m: Poetry) = parseDb { dao.delete(m) }
 
-    suspend fun getLocalPoetryByPage2(page: Int) = parseDb { dao2.getByPage(page) }
+    suspend fun getLocalPoetryByPage2(page: Int) = parseDb { dao2.getByPage2(page) }
+
+    suspend fun get10PoetryRandom() = parseDb { dao2.get10PoetryRandom() }
 }

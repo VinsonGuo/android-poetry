@@ -1,6 +1,7 @@
 package com.tech502.poetry.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -24,6 +25,9 @@ data class Poem(val name: String, @SerializedName("intro_l") val introduce: Stri
 
 @Parcelize
 @Entity(tableName = "poetry")
-data class Poetry2(val title: String,
-                   val contents: String,
-                   val author: String) : Parcelable
+data class Poetry2(
+        @PrimaryKey(autoGenerate = true) val id: Int,
+        val title: String,
+        val author: String,
+        val contents: String,
+        val is_like: Int) : Parcelable

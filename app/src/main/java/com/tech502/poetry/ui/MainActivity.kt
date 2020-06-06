@@ -2,6 +2,7 @@ package com.tech502.poetry.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.viewpager.widget.ViewPager
@@ -84,7 +85,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
 //            Utils.showToast(this@MainActivity, response.msg)
 //        }
         val res = withContext(Dispatchers.IO) {
-            Repository.instance.getLocalPoetryByPage2(1)
+            Repository.instance.get10PoetryRandom()
         }
         if (res.isSuccess && res.data != null) {
             fragments += res.data.map { item -> ContentFragment.newInstance(item) }
@@ -93,6 +94,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
             view_pager.setCurrentItem(max(0, fragments.size - 11), false)
         } else {
             Utils.showToast(this@MainActivity, res.msg)
+            Log.e("zmsc", "db error", res.throwable)
         }
     }
 

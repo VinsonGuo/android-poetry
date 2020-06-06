@@ -8,5 +8,8 @@ import com.tech502.poetry.model.Poetry2
 interface PoetryDao2 {
 
     @Query("SELECT * FROM poetry LIMIT :page * 10, 10")
-    fun getByPage(page: Int): List<Poetry2>
+    fun getByPage2(page: Int): List<Poetry2>
+
+    @Query("SELECT * FROM poetry WHERE id IN (SELECT id FROM poetry ORDER BY RANDOM() LIMIT 10)")
+    fun get10PoetryRandom(): List<Poetry2>
 }

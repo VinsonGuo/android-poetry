@@ -14,5 +14,4 @@
 <img src="https://github.com/VinsonGuo/android-poetry/raw/master/art/shotscreen3.png" width="300" hspace="20" /><br/>
 
 **下载地址**
-* [play](https://play.google.com/store/apps/details?id=com.tech502.poetry) 
-* [酷安](https://www.coolapk.com/apk/com.tech502.poetry)
+* [play](https://play.google.com/store/apps/details?id=com.vinsonguo.zmsc)

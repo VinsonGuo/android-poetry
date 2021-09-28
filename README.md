@@ -16,7 +16,3 @@
 **下载地址**
 * [play](https://play.google.com/store/apps/details?id=com.vinsonguo.zmsc)
 
-
-## 其他
-
-_承接项目外包、Bug修复、模拟面试等业务，详情请了解[人月神话](https://shop502917064.taobao.com)的淘宝店铺_ 

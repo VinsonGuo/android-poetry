@@ -8,17 +8,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.tech502.poetry.model.Poetry
 import com.tech502.poetry.ui.adapter.PoetryAdapter
-import com.tech502.poetry.util.Repository
 import com.tech502.poetry.util.Utils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 
 /**
  * Created by guoziwei on 2018/4/26 0026.
  */
-class PoetryLikeListFragment : ListFragment<Poetry>(){
+class PoetryLikeListFragment : ListFragment<Poetry>() {
 
     private val viewModel by viewModels<PoetryLikeListViewModel>()
 
@@ -32,9 +27,9 @@ class PoetryLikeListFragment : ListFragment<Poetry>(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.listResource.observe(this, Observer {
-            if(it.isSuccess) {
+            if (it.isSuccess) {
                 loadDataSuccess(it.data)
-            }else{
+            } else {
                 Utils.showToast(mContext, it.msg)
                 loadFailed()
             }

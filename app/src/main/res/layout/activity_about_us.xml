@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poetry_font"
-            android:text="502工作室"
+            android:text="VinsonGuo"
             android:textColor="@color/main_text_color"
             android:textSize="20sp" />
 
@@ -69,13 +69,5 @@
             android:textColor="@color/main_text_color"
             android:textSize="20sp" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poetry_font"
-        android:text="Copyright © 2012-2018 502工作室
-             All Rights Reserved"
-        android:textSize="11sp" />
 
 </LinearLayout>

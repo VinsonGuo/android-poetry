@@ -23,7 +23,10 @@ class ContentViewModel : ViewModel() {
     fun setCollect(poetry: Poetry) {
         viewModelScope.launch {
             if (isCollect.value != true) {
-                val res = repository.insertLocalPoetry(poetry.apply { update_time = System.currentTimeMillis() })
+                val res = repository.updatePoetry(poetry.apply {
+                    is_like = true
+                    like_time = System.currentTimeMillis()
+                })
                 if (res.isSuccess) {
                     isCollect.value = true
                     message.value = "收藏成功❤️"
@@ -31,7 +34,7 @@ class ContentViewModel : ViewModel() {
                     message.value = res.msg
                 }
             } else {
-                val res = repository.deleteLocalPoetry(poetry)
+                val res = repository.updatePoetry(poetry.apply { is_like = false })
                 if (res.isSuccess) {
                     isCollect.value = false
                 } else {
@@ -44,7 +47,7 @@ class ContentViewModel : ViewModel() {
     fun loadCollect(poetry: Poetry) {
         // 搜索数据库是否保存
         viewModelScope.launch {
-            val res = repository.getLocalPoetryByPoetryId(poetry.poetry_id)
+            val res = repository.getLikePoetryById(poetry.id)
             if (res.isSuccess) {
                 isCollect.value = res.data?.isNotEmpty()
             } else {

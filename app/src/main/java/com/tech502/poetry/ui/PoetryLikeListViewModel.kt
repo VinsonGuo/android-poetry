@@ -16,7 +16,7 @@ class PoetryLikeListViewModel : ViewModel() {
 
     fun loadListData(page: Int) {
         viewModelScope.launch {
-            listResource.value = repository.getLocalPoetryByPage(page)
+            listResource.value = repository.getLikePoetry(page)
         }
     }
 

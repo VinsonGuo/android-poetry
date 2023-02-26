@@ -6,9 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.viewpager.widget.ViewPager
-import com.ToxicBakery.viewpager.transforms.CubeOutTransformer
 import com.tech502.poetry.R
 import com.tech502.poetry.ui.adapter.SimpleFragmentPagerAdapter
+import com.tech502.poetry.util.BookFlipPageTransformer
 import com.tech502.poetry.util.Repository
 import com.tech502.poetry.util.Utils
 import com.yalantis.guillotine.animation.GuillotineAnimation
@@ -34,7 +34,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tv_search.setOnClickListener(this)
-        view_pager.setPageTransformer(false, CubeOutTransformer())
+        view_pager.setPageTransformer(false, BookFlipPageTransformer())
         view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -53,6 +53,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
         root.addView(guillotineMenu)
         guillotineMenu.tv_toggle_simplify.setOnClickListener(this)
         guillotineMenu.tv_menu_list.setOnClickListener(this)
+        guillotineMenu.tv_menu_poem.setOnClickListener(this)
         guillotineMenu.tv_menu_about.setOnClickListener(this)
 
         mMenu = GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.tv_close, tv_menu)
@@ -73,20 +74,10 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
     }
 
     private fun requestData() = launch(Utils.defaultCoroutineExceptionHandler(this)) {
-        //        val response = withContext(Dispatchers.IO) {
-//            HttpUtil.create().randomTenPoetry()
-//        }
-//        if (response.isSuccess()) {
-//            fragments += response.data.map { item -> ContentFragment.newInstance(item) }
-//            adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
-//            view_pager.adapter = adapter
-//            view_pager.setCurrentItem(max(0, fragments.size - 11), false)
-//        } else {
-//            Utils.showToast(this@MainActivity, response.msg)
-//        }
         val res = withContext(Dispatchers.IO) {
             Repository.instance.get10PoetryRandom()
         }
+        progress_bar.visibility = View.GONE
         if (res.isSuccess && res.data != null) {
             fragments += res.data.map { item -> ContentFragment.newInstance(item) }
             adapter = SimpleFragmentPagerAdapter(supportFragmentManager, fragments)
@@ -112,7 +103,8 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope(), View.OnClick
         when (v.id) {
             R.id.tv_toggle_simplify -> Utils.toggleSimplify(this)
             R.id.tv_search -> TransitionsHeleper.startActivity(this, SearchActivity::class.java, v)
-            R.id.tv_menu_list -> startActivity(Intent(this, PoetryListActivity::class.java))
+            R.id.tv_menu_list -> ListContainerActivity.launch(this, ListContainerActivity.Type.LikeList)
+            R.id.tv_menu_poem -> ListContainerActivity.launch(this, ListContainerActivity.Type.PoemList)
             R.id.tv_menu_about -> startActivity(Intent(this, AboutUsActivity::class.java))
         }
     }

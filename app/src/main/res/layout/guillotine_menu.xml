@@ -20,7 +20,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="@dimen/status_bar_height"
+            android:paddingTop="10dp"
             android:text="@string/close_menu"
             android:textColor="@color/second_text_color"
             android:textSize="16sp"
@@ -42,6 +42,18 @@
         android:includeFontPadding="false"
         android:padding="10dp"
         android:text="@string/collect_list"
+        android:textColor="@color/second_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_menu_poem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poetry_font"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:padding="10dp"
+        android:text="@string/poem_list"
         android:textColor="@color/second_text_color"
         android:textSize="16sp" />
 

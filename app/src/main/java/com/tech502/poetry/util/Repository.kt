@@ -13,9 +13,7 @@ class Repository {
         val instance = Repository()
     }
 
-    private val http by lazy { HttpUtil.create() }
-    private val dao by lazy { DataBase.getInstance().poetryDao() }
-    private val dao2 by lazy { DataBaseHelper.getInstance().poetryDao2() }
+    private val dao by lazy { DataBaseHelper.getInstance().poetryDao() }
 
 
     private suspend fun <T> parseResponse(block: suspend () -> BaseResponse<T>): Resource<T> {
@@ -46,21 +44,17 @@ class Repository {
         }
     }
 
-    suspend fun randomTenPoetry() = parseResponse { http.randomTenPoetry() }
+    suspend fun searchPoetry(s: String, t: String, page: Int) = parseDb { dao.search(s, t, page) }
 
-    suspend fun poemInfo(author_id: String, author_name: String) = parseResponse { http.poemInfo(author_id, author_name) }
+    suspend fun searchPoetryByAuthor(s: String, t: String, page: Int) = parseDb { dao.searchByAuthor(s, t, page) }
 
-    suspend fun searchPoetry(keyword: String, page: Int) = parseResponse { http.searchPoetry(keyword, page) }
+    suspend fun getLikePoetryById(id: Int) = parseDb { dao.getLikePoetryById(id) }
 
-    suspend fun getLocalPoetryByPage(page: Int) = parseDb { dao.getByPage(page) }
+    suspend fun updatePoetry(m: Poetry) = parseDb { dao.updatePoetry(m) }
 
-    suspend fun getLocalPoetryByPoetryId(poetry_id: String) = parseDb { dao.getByPoetryId(poetry_id) }
+    suspend fun getLikePoetry(page: Int) = parseDb { dao.getLikePoetry(page) }
 
-    suspend fun insertLocalPoetry(m: Poetry) = parseDb { dao.insert(m) }
+    suspend fun get10PoetryRandom() = parseDb { dao.get10PoetryRandom() }
 
-    suspend fun deleteLocalPoetry(m: Poetry) = parseDb { dao.delete(m) }
-
-    suspend fun getLocalPoetryByPage2(page: Int) = parseDb { dao2.getByPage2(page) }
-
-    suspend fun get10PoetryRandom() = parseDb { dao2.get10PoetryRandom() }
+    suspend fun getPoemInfo(page: Int) = parseDb { dao.getPoemInfo(page) }
 }

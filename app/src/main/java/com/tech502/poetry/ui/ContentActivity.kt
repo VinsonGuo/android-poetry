@@ -23,7 +23,7 @@ class ContentActivity : BaseActivity() {
         val poetry = intent.getParcelableExtra("data") as Poetry
         supportFragmentManager
                 .beginTransaction()
-//                .replace(R.id.fl_container, ContentFragment.newInstance(poetry))
+                .replace(R.id.fl_container, ContentFragment.newInstance(poetry))
                 .commit()
         findViewById<View>(R.id.tv_back).setOnClickListener { finish() }
     }

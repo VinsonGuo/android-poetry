@@ -164,6 +164,8 @@ object Utils {
                     .replace('”', '﹄')
                     .replace('‘', '﹁')
                     .replace('’', '﹂')
+                    .replace('{', '﹁')
+                    .replace('}', '﹂')
                     .replace('「', '﹁')
                     .replace('」', '﹂')
                     .replace('（', '︵')
@@ -171,11 +173,15 @@ object Utils {
                     .replace('《', '︻')
                     .replace('》', '︼')
         }
-        val config = tv.context.resources.configuration
-        if (config.locale == Locale.TRADITIONAL_CHINESE) {
-            tv.text = ChineseConverter.convert(text, ConversionType.S2T, tv.context)
+        tv.text = getI18NText(tv.context, text)
+    }
+
+    fun getI18NText(context: Context, text: String): String {
+        val config = context.resources.configuration
+        return if (config.locale == Locale.TRADITIONAL_CHINESE) {
+            ChineseConverter.convert(text, ConversionType.S2T, context)
         } else {
-            tv.text = ChineseConverter.convert(text, ConversionType.T2S, tv.context)
+            ChineseConverter.convert(text, ConversionType.T2S, context)
         }
     }
 

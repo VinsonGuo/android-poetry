@@ -17,8 +17,11 @@
     <string name="share_text">分享图片到</string>
     <string name="share_error">分享失败</string>
     <string name="share">分享</string>
-    <string name="mail502tech">tech_502@163.com</string>
+    <string name="mail502tech" translatable="false">guoziwei93@gmail.com</string>
     <string name="collect">收藏</string>
     <string name="cancel_collect">取消收藏</string>
     <string name="error">发生了错误，请重试</string>
+    <string name="cancel_like_msg">确定取消收藏么？</string>
+    <string name="confirm">确认</string>
+    <string name="poem_list">诗人列表</string>
 </resources>

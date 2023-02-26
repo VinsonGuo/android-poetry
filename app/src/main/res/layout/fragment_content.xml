@@ -17,25 +17,31 @@
         android:scrollbars="none">
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:orientation="horizontal"
             android:paddingBottom="40dp">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_percent="0.15"
+                android:orientation="horizontal"/>
 
             <com.tech502.poetry.view.VerticalTextView
                 android:id="@+id/tv_content"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/top_guide"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_author"
                 android:fontFamily="@font/poetry_font"
                 android:gravity="right"
                 android:includeFontPadding="false"
                 android:paddingLeft="14dp"
                 android:paddingRight="10dp"
-                android:paddingTop="60dp"
                 android:textColor="#000"
                 android:textSize="24sp"
                 app:lineSpacingExtra="18dp"
@@ -43,30 +49,35 @@
 
             <com.tech502.poetry.view.VerticalTextView
                 android:id="@+id/tv_author"
+                app:layout_constraintTop_toTopOf="@id/top_guide"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_title"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:fontFamily="@font/poetry_font"
                 android:includeFontPadding="false"
-                android:paddingTop="60dp"
+                android:paddingTop="20dp"
                 android:textColor="#000"
                 android:textSize="20sp"
                 tools:text="马致远" />
 
             <com.tech502.poetry.view.VerticalTextView
                 android:id="@+id/tv_title"
+                app:layout_constraintTop_toTopOf="@id/top_guide"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginRight="40dp"
                 android:fontFamily="@font/poetry_font"
                 android:includeFontPadding="false"
-                android:paddingTop="40dp"
                 android:textColor="#000"
                 android:textSize="32sp"
                 app:lineSpacingExtra="18dp"
                 tools:text="天净沙·秋思" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.tech502.poetry.view.HScrollView>

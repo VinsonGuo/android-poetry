@@ -14,11 +14,16 @@ class PoetryListViewModel : ViewModel() {
 
     private val repository by lazy { Repository.instance }
 
-    fun loadListData(keyword: String, page: Int) {
+    fun loadListData(s: String, t: String, page: Int) {
         viewModelScope.launch {
-            listResource.value = repository.searchPoetry(keyword, page)
+            listResource.value = repository.searchPoetry(s, t, page)
         }
     }
 
+    fun loadListDataByAuth(s: String, t: String, page: Int) {
+        viewModelScope.launch {
+            listResource.value = repository.searchPoetryByAuthor(s, t, page)
+        }
+    }
 
 }

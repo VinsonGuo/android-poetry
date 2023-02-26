@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:padding="10dp"-->
     <style name="Toolbar">
-        <item name="android:paddingTop">@dimen/status_bar_height</item>
+        <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>

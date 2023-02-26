@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.FileProvider
-import androidx.fragment.app.viewModels
+import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.tech502.poetry.R
 import com.tech502.poetry.model.Poetry
-import com.tech502.poetry.model.Poetry2
 import com.tech502.poetry.util.Utils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.runtime.Permission
 import kotlinx.android.synthetic.main.fragment_content.view.*
-import kotlinx.coroutines.*
 
 
 /**
@@ -24,10 +26,18 @@ import kotlinx.coroutines.*
 class ContentFragment : BaseFragment() {
 
 
-    private lateinit var poetry: Poetry2
+    private lateinit var poetry: Poetry
+
+    private lateinit var viewModel: ContentViewModel
+
+    private val chromeTab by lazy {
+        CustomTabsIntent.Builder()
+                .setToolbarColor(resources.getColor(R.color.colorPrimaryDark))
+                .build()
+    }
 
     companion object {
-        fun newInstance(poetry: Poetry2): ContentFragment {
+        fun newInstance(poetry: Poetry): ContentFragment {
             val fragment = ContentFragment()
             val args = Bundle()
             args.putParcelable("data", poetry)
@@ -38,26 +48,25 @@ class ContentFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        poetry = arguments?.getParcelable("data") as Poetry2
+        poetry = arguments?.getParcelable("data") as Poetry
     }
 
-    private val viewModel: ContentViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel = ViewModelProviders.of(this).get("ContentViewModel" + poetry.id.toString(), ContentViewModel::class.java)
+
         val v: View = inflater.inflate(R.layout.fragment_content, container, false)
 
         v.scrollView.post { v.scrollView.fullScroll(View.FOCUS_RIGHT) }
 
         Utils.setText(v.tv_content, poetry.contents)
-//        val dynasty = when (poetry.dynasty) {
-//            "T" -> "唐"
-//            "S" -> "宋"
-//            else -> ""
-//        }
+
         Utils.setText(v.tv_author, poetry.author)
         Utils.setText(v.tv_title, poetry.title)
 
-//        v.tv_author_intro.setOnClickListener { PoemActivity.launch(v.context, poetry.author_id, poetry.author) }
+        v.tv_author_intro.setOnClickListener {
+            chromeTab.launchUrl(mContext, "https://zh.wikipedia.org/wiki/${poetry.author}".toUri())
+        }
         v.tv_share.setOnClickListener {
             AndPermission.with(this@ContentFragment)
                     .runtime()
@@ -71,13 +80,29 @@ class ContentFragment : BaseFragment() {
                     .start()
 
         }
-//        v.tv_collect.setOnClickListener { viewModel.setCollect(poetry) }
+        v.tv_collect.setOnClickListener {
+            if (viewModel.isCollect.value == true) { //取消收藏弹窗
+                AlertDialog.Builder(mContext)
+                        .setMessage(R.string.cancel_like_msg)
+                        .setPositiveButton(R.string.confirm) { dialog, _ ->
+                            viewModel.setCollect(poetry)
+                            dialog.dismiss()
+                        }
+                        .show()
+            } else {
+                viewModel.setCollect(poetry)
+            }
+        }
 
-        viewModel.isCollect.observe(this, Observer {
+        viewModel.isCollect.observe(viewLifecycleOwner, Observer {
             v.tv_collect.setText(if (it) R.string.cancel_collect else R.string.collect)
         })
-        viewModel.message.observe(this, Observer { Utils.showToast(mContext, it) })
-        viewModel.shareFile.observe(this, Observer {
+        viewModel.message.observe(viewLifecycleOwner, Observer {
+            if (lifecycle.currentState > Lifecycle.State.STARTED) {
+                Utils.showToast(mContext, it)
+            }
+        })
+        viewModel.shareFile.observe(viewLifecycleOwner, Observer {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             val screenshotUri = FileProvider.getUriForFile(
                     mContext,
@@ -94,7 +119,7 @@ class ContentFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-//        viewModel.loadCollect(poetry)
+        viewModel.loadCollect(poetry)
     }
 
 
